@@ -4,10 +4,10 @@ export type TRegister = {
   fullName: string;
   username: string;
   phone_number: string;
-  avatar?: string;
-  address?: string;
   birth_date: string;
   gender: string;
+  avatar?: string;
+  address?: string;
 };
 
 export type TLogin = {

@@ -4,9 +4,7 @@ import { TRegister } from '../dto/Auth.dto';
 import TResponse from '../utils/Response.utils';
 
 class AuthService {
-  constructor(private ProfileModel = prismaInstance.profile) {
-    this.ProfileModel = ProfileModel;
-  }
+  private ProfileModel = prismaInstance.profile;
 
   async getProfile() {
     const profiles = await this.ProfileModel.findMany({
@@ -40,4 +38,4 @@ class AuthService {
   }
 }
 
-export default AuthService;
+export default new AuthService();

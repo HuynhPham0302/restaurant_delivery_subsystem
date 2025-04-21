@@ -1,11 +1,11 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import cors from 'cors';
+import body from 'body-parser';
 import compression from 'compression';
-import { json } from 'body-parser';
-import router from './routers';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import express from 'express';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import RootRouter from './routers';
 
 dotenv.config();
 const app = express();
@@ -15,16 +15,11 @@ app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
 app.use(compression());
-app.use(json());
+app.use(body.json());
+app.use(body.urlencoded({ extended: false }));
 
-app.use('/api/v1,', router);
+app.use('/v1/api', RootRouter);
 
-const server = app.listen(port, () => {
-  console.log(`Server ready at http://localhost:${port}`);
-});
-
-process.on('SIGTERM', () => {
-  server.close(() => {
-    console.log('Process terminated');
-  });
+app.listen(port, () => {
+  console.log(`Server is ready at http://localhost:${port}`);
 });
