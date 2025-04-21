@@ -28,7 +28,7 @@ model User {
   phone_number String   @unique
   address      String?
   birth_date   DateTime
-  gender       String
+  gender       String?
   profile      Profile?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

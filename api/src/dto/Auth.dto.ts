@@ -5,7 +5,7 @@ export type TRegister = {
   username: string;
   phone_number: string;
   birth_date: string;
-  gender: string;
+  gender?: string;
   avatar?: string;
   address?: string;
 };
