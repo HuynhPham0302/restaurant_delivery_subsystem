@@ -33,6 +33,7 @@ model User {
   profile      Profile?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+  Cart         Cart[]
 }
 
 model Category {
@@ -75,6 +76,7 @@ model Product_item {
   updatedAt   DateTime @updatedAt
   product     Product  @relation(fields: [productId], references: [id])
   productId   Int
+  Cart        Cart[]
 }
 
 model Product_images {
@@ -84,4 +86,15 @@ model Product_images {
   productId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Cart {
+  id            Int          @id @default(autoincrement())
+  user          User         @relation(fields: [userId], references: [id])
+  userId        Int
+  product_item  Product_item @relation(fields: [productItemId], references: [id])
+  productItemId Int
+  quantity      Int
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
