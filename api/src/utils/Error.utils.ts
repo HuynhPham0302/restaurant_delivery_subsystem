@@ -22,8 +22,14 @@ class NotFoundError extends ErrorResponse {
 }
 
 class UnauthorizedError extends ErrorResponse {
-  constructor(message: string) {
+  constructor(message: string = 'Unauthorized') {
     super(401, message);
+  }
+}
+
+class ForbiddenError extends ErrorResponse {
+  constructor(message: string = 'Forbidden access') {
+    super(403, message);
   }
 }
 
@@ -33,4 +39,4 @@ class ValidatorError extends ErrorResponse {
   }
 }
 
-export { ErrorResponse, ConflictError, NotFoundError, UnauthorizedError, ValidatorError };
+export { ErrorResponse, ConflictError, NotFoundError, UnauthorizedError, ValidatorError, ForbiddenError };

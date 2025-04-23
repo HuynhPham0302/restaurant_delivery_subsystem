@@ -1,12 +1,23 @@
-import { Badge, Button, Divider, Input } from 'antd';
-import { FaShoppingCart } from 'react-icons/fa';
+import { TProfile } from '@/types/Profile.types';
+import HTTP from '@/utils/Http.utils';
+import { TResponse } from '@/utils/TRes.utils';
+import { useQuery } from '@tanstack/react-query';
+import { Avatar, Badge, Button, Divider, Input } from 'antd';
+import Cookies from 'js-cookie';
+import { FaHome, FaShoppingCart } from 'react-icons/fa';
 import { FaRegFaceSmile } from 'react-icons/fa6';
 import { IoSearchOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
 export default function Header() {
+  const { isLoading, data: user } = useQuery({
+    queryKey: ['me'],
+    queryFn: async () => await HTTP.get<TResponse<TProfile>>('/auth/me'),
+    enabled: !!Cookies.get('token'),
+  });
+
   return (
-    <div className='container mx-auto w-full h-14 flex items-center justify-center space-x-10'>
+    <div className='w-full h-14 flex items-center justify-center space-x-10'>
       <h1 className='text-2xl font-bold'>LOGO</h1>
       <Input.Search
         prefix={<IoSearchOutline className='mr-2' />}
@@ -16,17 +27,27 @@ export default function Header() {
         size='large'
       />
       <div className='h-full flex items-center space-x-3 group/icon'>
+        <Link to='/'>
+          <Button icon={<FaHome className='inline mb-[3px] text-gray-600' size={18} />} size='large' type='text'>
+            Trang chủ
+          </Button>
+        </Link>
         <Link to='/auth/login'>
           <Button
+            loading={isLoading}
             icon={
-              <FaRegFaceSmile
-                className='inline mb-[3px] text-gray-600 group-hover/icon:text-blue-400 duration-500'
-                size={18}
-              />
+              !user ? (
+                <FaRegFaceSmile
+                  className='inline mb-[3px] text-gray-600 group-hover/icon:text-primary duration-500'
+                  size={18}
+                />
+              ) : (
+                <Avatar size={25} src={user.data.metadata.avatar} />
+              )
             }
             size='large'
           >
-            Đăng nhập
+            {user?.data.metadata.user.username || 'Tài khoản'}
           </Button>
         </Link>
         <Divider type='vertical' style={{ height: '50%' }} />

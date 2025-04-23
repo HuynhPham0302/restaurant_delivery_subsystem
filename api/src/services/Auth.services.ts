@@ -53,15 +53,19 @@ class AuthService {
       },
     });
     if (!profile) {
-      throw new UnauthorizedError('Email or password is wrong');
+      throw new UnauthorizedError('Email hoặc mật khẩu không đúng!');
     }
     const isPasswordMatch = bcrypt.compareSync(data.password, profile.password!);
     if (!isPasswordMatch) {
-      throw new UnauthorizedError('Email or password is wrong');
+      throw new UnauthorizedError('Email hoặc mật khẩu không đúng!');
     }
     // Generate JWT token
     const token = JWT.sign({ id: profile.id, provider: profile.provider, role: profile.role, email: profile.email });
     return TRes.success({ ...profile, token }, 200, 'Login success');
+  }
+
+  async me(user: any) {
+    return TRes.success(user, 200, 'Get profile success');
   }
 
   // Use Google Strategy login

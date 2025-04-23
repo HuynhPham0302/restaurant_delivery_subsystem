@@ -36,13 +36,16 @@ const GoogleMiddleCallBack = passport.authenticate('google', {
 
 // Configure Strategies
 passport.use(
-  new BearerStrategy((token, done) => {
+  new BearerStrategy(async (token, done) => {
     try {
       const payload = jwt.verify(token) as TJwtPayload;
-      const profile = ProfileModel.findUnique({
+      const profile = await ProfileModel.findUnique({
         where: {
           id: payload.id,
           email: payload.email,
+        },
+        include: {
+          user: true,
         },
       });
       if (!profile) {
@@ -62,7 +65,7 @@ passport.use(
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: `${CLIENT_HOSTNAME}/auth/callback/google`,
     },
-    async function (accessToken, refreshToken, profile, done) {
+    async function (_, __, profile, done) {
       try {
         const email = profile.emails![0].value;
         const user = await ProfileModel.findUnique({
@@ -72,7 +75,13 @@ passport.use(
           },
         });
         if (user) {
-          return done(null, user);
+          const token = jwt.sign({
+            id: user.id,
+            provider: user.provider,
+            role: user.role,
+            email: user.email,
+          } as TJwtPayload);
+          return done(null, { ...user, token });
         } else {
           const newGoogleUser = await ProfileModel.create({
             data: {
@@ -87,7 +96,13 @@ passport.use(
               },
             },
           });
-          return done(null, newGoogleUser);
+          const token = jwt.sign({
+            id: newGoogleUser.id,
+            provider: newGoogleUser.provider,
+            role: newGoogleUser.role,
+            email: newGoogleUser.email,
+          } as TJwtPayload);
+          return done(null, { ...newGoogleUser, token });
         }
       } catch (error) {
         return done(error as Error, false);

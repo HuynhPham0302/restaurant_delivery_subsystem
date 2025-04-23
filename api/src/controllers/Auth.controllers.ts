@@ -5,11 +5,6 @@ import AuthService from '../services/Auth.services';
 import { TJwtPayload } from '../utils/Jwt.utils';
 
 class AuthController {
-  async getProfile(req: Request, res: Response) {
-    const response = await AuthService.getProfile();
-    return res.status(response.status_code).json(response);
-  }
-
   async register(req: Request, res: Response) {
     const data = req.body;
     const response = await AuthService.register(data);
@@ -19,6 +14,11 @@ class AuthController {
   async login(req: Request, res: Response) {
     const data = req.body;
     const response = await AuthService.login(data);
+    return res.status(response.status_code).json(response);
+  }
+
+  async me(req: Request, res: Response) {
+    const response = await AuthService.me(req.user);
     return res.status(response.status_code).json(response);
   }
 

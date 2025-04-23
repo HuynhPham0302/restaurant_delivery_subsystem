@@ -1,13 +1,10 @@
-import { Typography } from 'antd';
-import Header from '../../layouts/Header/Header';
-
-const { Text } = Typography;
+import Header from '@/layouts/Header/Header';
 
 export default function HomePage() {
   return (
-    <main>
+    <main className='container mx-auto'>
       <Header />
-      <Text>Antd</Text>
+      <h1>Home Page</h1>
     </main>
   );
 }
