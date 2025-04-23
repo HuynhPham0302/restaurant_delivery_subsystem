@@ -55,7 +55,7 @@ class AuthService {
     if (!profile) {
       throw new UnauthorizedError('Email or password is wrong');
     }
-    const isPasswordMatch = bcrypt.compareSync(data.password, profile.password);
+    const isPasswordMatch = bcrypt.compareSync(data.password, profile.password!);
     if (!isPasswordMatch) {
       throw new UnauthorizedError('Email or password is wrong');
     }
@@ -65,8 +65,9 @@ class AuthService {
   }
 
   // Use Google Strategy login
-  async googleProvider() {
-    return TRes.success({}, 200, 'Google provider success');
+  async googleProvider(data: any) {
+    console.log(data);
+    return TRes.success(data, 200, 'Google login success');
   }
 }
 

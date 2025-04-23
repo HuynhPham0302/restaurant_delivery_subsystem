@@ -7,7 +7,7 @@ import GooglePassport from 'passport-google-oauth20';
 import prismaInstance from '../configs/database.config';
 import jwt, { TJwtPayload } from '../utils/Jwt.utils';
 
-const { GOOGLE_CLIENT_ID = 'abc', GOOGLE_CLIENT_SECRET = 'ABC' } = process.env;
+const { GOOGLE_CLIENT_ID = 'abc', GOOGLE_CLIENT_SECRET = 'ABC', HOSTNAME = 'http://localhost:4000' } = process.env;
 
 const ProfileModel = prismaInstance.profile;
 
@@ -56,11 +56,39 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:4000/v1/api/auth/google/callback',
+      callbackURL: `http://localhost:5173/google/callback`,
     },
-    function (accessToken, refreshToken, profile, done) {
-      console.log(profile);
-      return done(null, profile);
+    async function (accessToken, refreshToken, profile, done) {
+      try {
+        const email = profile.emails![0].value;
+        const user = await ProfileModel.findUnique({
+          where: {
+            email,
+            provider: 'google',
+          },
+        });
+        if (user) {
+          return done(null, user);
+        } else {
+          const newGoogleUser = await ProfileModel.create({
+            data: {
+              email,
+              provider: 'google',
+              avatar: profile.photos![0].value,
+              user: {
+                create: {
+                  fullName: profile.displayName,
+                  username: profile.displayName,
+                },
+              },
+            },
+          });
+          return done(null, newGoogleUser);
+        }
+      } catch (error) {
+        console.log('ERR');
+        return done(error as Error, false);
+      }
     },
   ),
 );

@@ -9,10 +9,12 @@ AuthRouter.get('/profile', BearerMiddle, AuthController.getProfile);
 AuthRouter.post('/register', AuthController.register);
 AuthRouter.post('/login', AuthController.login);
 
-// Google OAuth2.0
-AuthRouter.get('/google', GoogleMiddle, AuthController.googleProvider);
+// Redirect to Google for login
+AuthRouter.get('/google', GoogleMiddle, (req, res) => {
+  res.send('Redirect to Google for login');
+});
 
-// Redirect to Client after get data from Google
+// Verify data user from google provider
 AuthRouter.get('/google/callback', GoogleMiddleCallBack, AuthController.googleProvider);
 
 export default AuthRouter;

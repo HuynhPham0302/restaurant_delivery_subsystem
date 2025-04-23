@@ -10,7 +10,7 @@ datasource db {
 model Profile {
   id         Int      @id @default(autoincrement())
   email      String   @unique
-  password   String
+  password   String?
   role       String   @default("user")
   avatar     String?
   provider   String   @default("local")
@@ -23,14 +23,14 @@ model Profile {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   fullName     String
-  username     String   @unique
-  phone_number String   @unique
+  username     String    @unique
+  phone_number String?   @unique
   address      String?
-  birth_date   DateTime
+  birth_date   DateTime?
   gender       String?
   profile      Profile?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }

@@ -21,9 +21,11 @@ class AuthController {
     return res.status(response.status_code).json(response);
   }
 
-  // Redirect to Client after get data from Google
+  // Verify data user from google provider
   async googleProvider(req: Request, res: Response) {
-    return res.redirect('http://localhost:5173/');
+    const user_data = req.user;
+    const response = await AuthService.googleProvider(user_data);
+    return res.status(response.status_code).json(response);
   }
 }
 
