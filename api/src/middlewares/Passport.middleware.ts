@@ -56,7 +56,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: `http://localhost:5173/google/callback`,
+      callbackURL: `http://localhost:5173/auth/callback/google`,
     },
     async function (accessToken, refreshToken, profile, done) {
       try {
@@ -86,7 +86,6 @@ passport.use(
           return done(null, newGoogleUser);
         }
       } catch (error) {
-        console.log('ERR');
         return done(error as Error, false);
       }
     },
