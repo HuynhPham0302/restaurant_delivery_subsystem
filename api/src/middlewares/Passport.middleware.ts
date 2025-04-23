@@ -44,6 +44,9 @@ passport.use(
           id: payload.id,
           email: payload.email,
         },
+        include: {
+          user: true,
+        },
       });
       if (!profile) {
         return done(null, false);

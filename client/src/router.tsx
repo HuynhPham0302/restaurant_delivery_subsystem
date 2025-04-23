@@ -1,15 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
-import GoogleCallback from './app/Auth/Callback/GoogleCallback';
-import Login from './app/Auth/Login/Login';
-import HomePage from './app/HomePage/HomePage';
+import { GoogleCallback } from './app/Auth/Callback';
+import { Login } from './app/Auth/Login';
+import { HomePage } from './app/HomePage';
+import { MainLayout } from './layouts/MainLayout';
 
 const Routers = createBrowserRouter([
-  { path: '/', element: <HomePage /> },
   {
-    path: '/auth',
+    path: '/',
+    element: <MainLayout />,
     children: [
-      { path: '/auth/login', element: <Login /> },
-      { path: '/auth/callback/google', element: <GoogleCallback /> },
+      { path: '/', element: <HomePage /> },
+      {
+        path: '/auth',
+        children: [
+          { path: '/auth/login', element: <Login /> },
+          { path: '/auth/callback/google', element: <GoogleCallback /> },
+        ],
+      },
     ],
   },
 ]);

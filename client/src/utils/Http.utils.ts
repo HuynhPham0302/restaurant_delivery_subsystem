@@ -2,6 +2,13 @@ import axios, { AxiosInstance } from 'axios';
 import Cookie from 'js-cookie';
 import qs from 'qs';
 
+export type TResponse<T> = {
+  status: string;
+  status_code: number;
+  message: string;
+  metadata: T;
+};
+
 class CreateAxiosInstance {
   instance: AxiosInstance;
 
@@ -21,6 +28,13 @@ class CreateAxiosInstance {
       }
       return config;
     });
+
+    axiosInstance.interceptors.response.use(
+      (response) => response.data,
+      (error) => {
+        return Promise.reject(error);
+      },
+    );
 
     this.instance = axiosInstance;
   }

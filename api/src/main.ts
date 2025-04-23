@@ -1,7 +1,7 @@
 import compression from 'compression';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import express, { NextFunction, Request, Response, json } from 'express';
+import express, { NextFunction, Request, Response, json, urlencoded } from 'express';
 import 'express-async-errors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -18,19 +18,19 @@ app.use(helmet());
 app.use(cors());
 app.use(compression());
 app.use(json());
-app.use(express.urlencoded({ extended: true }));
+app.use(urlencoded({ extended: true }));
 app.use(passport.initialize());
 
 app.use('/v1/api', RootRouter);
 
 // Error 404 Handler
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((_: Request, __: Response, next: NextFunction) => {
   const err = new ErrorResponse(404, 'Not Found');
   next(err);
 });
 
 // Error 500 Handler
-app.use((err: ErrorResponse, req: Request, res: Response, next: NextFunction) =>
+app.use((err: ErrorResponse, _: Request, res: Response, next: NextFunction) =>
   res.status(err.status_code || 500).json({
     status: 'error',
     status_code: err.status_code || 500,

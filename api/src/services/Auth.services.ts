@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import prismaInstance from '../configs/database.config';
 import { TLogin, TRegister } from '../dto/Auth.dto';
 import JWT, { TJwtPayload } from '../utils/Jwt.utils';
-import TRes from '../utils/Response.utils';
+import { Success } from '../utils/Response.utils';
 import { UnauthorizedError } from '../utils/Error.utils';
 
 class AuthService {
@@ -14,7 +14,7 @@ class AuthService {
         user: true,
       },
     });
-    return TRes.success(profiles, 200, 'Get profile success');
+    return Success(profiles, 200, 'Get profile success');
   }
 
   async register(data: TRegister) {
@@ -36,7 +36,7 @@ class AuthService {
         },
       },
     });
-    return TRes.success(profile, 201, 'Register success');
+    return Success(profile, 201, 'Register success');
   }
 
   // Use Local Strategy (Email & Password) login
@@ -61,11 +61,11 @@ class AuthService {
     }
     // Generate JWT token
     const token = JWT.sign({ id: profile.id, provider: profile.provider, role: profile.role, email: profile.email });
-    return TRes.success({ ...profile, token }, 200, 'Login success');
+    return Success({ ...profile, token }, 200, 'Login success');
   }
 
   async me(user: any) {
-    return TRes.success(user, 200, 'Get profile success');
+    return Success(user, 200, 'Get profile success');
   }
 
   // Use Google Strategy login
@@ -76,7 +76,7 @@ class AuthService {
       role: data.role,
       email: data.email,
     });
-    return TRes.success({ ...data, token }, 200, 'Google login success');
+    return Success({ ...data, token }, 200, 'Google login success');
   }
 }
 

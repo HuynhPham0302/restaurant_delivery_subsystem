@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 type TGoogleData = TResponse<{ token: string }>;
 
-export default function GoogleCallback() {
+export function GoogleCallback() {
   const location = useLocation();
   const navigate = useNavigate();
   const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/auth/google/callback?code=${location.search.split('=')[1]}`;

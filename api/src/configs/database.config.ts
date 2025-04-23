@@ -4,9 +4,7 @@ class PrismaInstance {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient({
-      log: ['query', 'info', 'warn'],
-    });
+    this.prisma = new PrismaClient({});
   }
 
   public getPrisma() {

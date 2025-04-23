@@ -27,7 +27,7 @@ type LoginProps = {
 
 type TProfileLogin = TResponse<TProfile & { token: string }>;
 
-export default function Login() {
+export function Login() {
   const navigate = useNavigate();
   const [api, contextHolder] = notification.useNotification();
 
@@ -60,7 +60,7 @@ export default function Login() {
       {contextHolder}
       <Row className='w-1/2 h-1/2 bg-white rounded-lg shadow-xl overflow-hidden'>
         <Col span={16} className='p-8'>
-          <h1 className='text-3xl font-medium'>Xin chào,</h1>
+          <h1 className='text-3xl font-medium'>Xin chào!</h1>
           <h4 className='text-base mt-3'>Đăng nhập hoặc đăng ký tài khoản mới!</h4>
           <div className='mt-4'>
             <Form onFinish={handleSubmit} layout='vertical' requiredMark={false}>
