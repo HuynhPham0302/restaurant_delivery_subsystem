@@ -1,12 +1,14 @@
 // Desc: Auth controller for handling requests and responses from Auth services
 
 import { Request, Response } from 'express';
+import { RegisterSchema, TRegister } from '../dto/Auth.dto';
 import AuthService from '../services/Auth.services';
 import { TJwtPayload } from '../utils/Jwt.utils';
+import { ValidationData } from '../utils/Validation.utils';
 
 class AuthController {
   async register(req: Request, res: Response) {
-    const data = req.body;
+    const data = await ValidationData<TRegister>(req.body, RegisterSchema);
     const response = await AuthService.register(data);
     return res.status(response.status_code).json(response);
   }
