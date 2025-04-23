@@ -1,8 +1,7 @@
-import body from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import express from 'express';
+import express, { json } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import RootRouter from './routers';
@@ -15,8 +14,7 @@ app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
 app.use(compression());
-app.use(body.json());
-app.use(body.urlencoded({ extended: false }));
+app.use(json());
 
 app.use('/v1/api', RootRouter);
 

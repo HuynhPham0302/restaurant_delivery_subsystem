@@ -1,4 +1,4 @@
-class TResponse {
+class TRes {
   public static success<T>(metadata: T, code: number, message: string = 'Success') {
     return {
       status: 'success',
@@ -8,13 +8,14 @@ class TResponse {
     };
   }
 
-  public static error(message: string = 'Error', data: any = null) {
+  public static error(error: any, code: number = 500, message: string = 'Internal server error') {
     return {
       status: 'error',
+      status_code: code,
       message,
-      data,
+      error,
     };
   }
 }
 
-export default TResponse;
+export default TRes;

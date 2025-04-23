@@ -12,6 +12,12 @@ class AuthController {
     const response = await AuthService.register(data);
     return res.status(response.status_code).json(response);
   }
+
+  async login(req: Request, res: Response) {
+    const data = req.body;
+    const response = await AuthService.login(data);
+    return res.status(response.status_code).json(response);
+  }
 }
 
 export default new AuthController();
