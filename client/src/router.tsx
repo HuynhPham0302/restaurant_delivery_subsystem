@@ -8,15 +8,13 @@ const Routers = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
+    children: [{ path: '/', element: <HomePage /> }],
+  },
+  {
+    path: '/auth',
     children: [
-      { path: '/', element: <HomePage /> },
-      {
-        path: '/auth',
-        children: [
-          { path: '/auth/login', element: <Login /> },
-          { path: '/auth/callback/google', element: <GoogleCallback /> },
-        ],
-      },
+      { path: '/auth/login', element: <Login /> },
+      { path: '/auth/callback/google', element: <GoogleCallback /> },
     ],
   },
 ]);

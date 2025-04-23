@@ -58,7 +58,7 @@ export function Login() {
   return (
     <main className='w-full h-screen flex items-center justify-center bg-secondary/30'>
       {contextHolder}
-      <Row className='w-1/2 h-1/2 bg-white rounded-lg shadow-xl overflow-hidden'>
+      <Row className='w-1/2 h-[70%] bg-white rounded-lg shadow-xl overflow-hidden'>
         <Col span={16} className='p-8'>
           <h1 className='text-3xl font-medium'>Xin chào!</h1>
           <h4 className='text-base mt-3'>Đăng nhập hoặc đăng ký tài khoản mới!</h4>

@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import HTTP from '@/utils/Http.utils';
-import { TResponse } from '@/utils/TRes.utils';
+import HTTP, { TResponse } from '@/utils/Http.utils';
 import { useQuery } from '@tanstack/react-query';
 import { Spin } from 'antd';
 import Cookies from 'js-cookie';
@@ -14,9 +13,9 @@ export function GoogleCallback() {
   const navigate = useNavigate();
   const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/auth/google/callback?code=${location.search.split('=')[1]}`;
 
-  const { isError, data } = useQuery({
+  const { isError, data } = useQuery<TGoogleData>({
     queryKey: ['google'],
-    queryFn: async () => await HTTP.get<TGoogleData>(url),
+    queryFn: async () => await HTTP.get(url),
   });
 
   if (isError) {
@@ -25,7 +24,7 @@ export function GoogleCallback() {
   }
 
   if (data) {
-    Cookies.set('token', data.data.metadata.token, { expires: 7 });
+    Cookies.set('token', data.metadata.token, { expires: 7 });
     navigate('/');
   }
 

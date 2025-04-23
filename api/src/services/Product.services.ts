@@ -38,7 +38,6 @@ class ProductServices {
       include: {
         items: true,
         images: true,
-        category: true,
       },
     });
 
@@ -53,7 +52,6 @@ class ProductServices {
       include: {
         items: true,
         images: true,
-        category: true,
       },
     });
 
