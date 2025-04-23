@@ -11,7 +11,7 @@ const Config: Config = {
         accent: '#433BFF',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Quicksand', 'sans-serif'],
       },
     },
   },

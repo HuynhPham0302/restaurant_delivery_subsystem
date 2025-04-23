@@ -3,13 +3,15 @@ import { Header } from '../Header';
 
 export function MainLayout() {
   return (
-    <main className='bg-[#f5f5fa] min-h-screen'>
-      <div className='w-full bg-white'>
+    <main className='bg-[#f5f5fa] min-h-screen relative'>
+      <div className='w-full bg-white fixed z-20'>
         <div className='container mx-auto'>
           <Header />
         </div>
       </div>
-      <Outlet />
+      <main className='bg-slate-100'>
+        <Outlet />
+      </main>
     </main>
   );
 }

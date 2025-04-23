@@ -6,6 +6,7 @@ import 'express-async-errors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import passport from 'passport';
+import path from 'path';
 import RootRouter from './routers';
 import { ErrorResponse } from './utils/Error.utils';
 
@@ -14,13 +15,14 @@ const app = express();
 const { PORT = '3000' } = process.env;
 
 app.use(morgan('dev'));
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors());
 app.use(compression());
 app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use(passport.initialize());
 
+app.use('/v1/api/static', express.static(path.join(__dirname, '../public')));
 app.use('/v1/api', RootRouter);
 
 // Error 404 Handler

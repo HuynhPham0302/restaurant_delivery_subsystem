@@ -1,54 +1,102 @@
-import { Sidebar } from '@/components/HomePage/Sidebar';
 import { ProductCard } from '@/components/ProductCard';
-import { TCategory } from '@/types/Category.types';
-import { TProduct } from '@/types/Product.types';
-import HTTP, { TResponse } from '@/utils/Http.utils';
-import { useQuery } from '@tanstack/react-query';
+import { Col, Row } from 'antd';
+import { FaAngleRight } from 'react-icons/fa';
 
 export function HomePage() {
-  const { isLoading: isCategoryLoading, data: Category } = useQuery<TResponse<TCategory[]>>({
-    queryKey: ['category'],
-    queryFn: async () => await HTTP.get('/category'),
-  });
-
-  const { isLoading: isProductLoading, data: Product } = useQuery<TResponse<TProduct[]>>({
-    queryKey: ['product'],
-    queryFn: async () => await HTTP.get('/product'),
-  });
-
   return (
-    <main className='container mx-auto'>
-      <div className='flex space-x-4 mt-8'>
-        <div className='w-[17%] relative'>
-          <Sidebar data={Category?.metadata || []} />
-        </div>
-        <div className='flex-1 rounded-md space-y-4'>
-          <div className='w-full h-32 rounded-md bg-white flex items-center space-x-10 p-4'>
-            <div className='flex flex-col items-center'>
-              <img
-                src='https://salt.tikicdn.com/ts/upload/e0/4f/a4/2f79e4d3e8b4a71941fa7da279c994db.png'
-                alt='image'
-                className='w-14 h-14 border border-gray-100 rounded-md'
-              />
-              <p className='text-sm mt-2'>Top deals</p>
-            </div>
-            {Category?.metadata.map((category) => (
-              <div key={category.id} className='flex flex-col items-center'>
-                <img src={category.image} alt={category.name} className='w-14 h-14 border border-gray-100 rounded-md' />
-                <p className='text-sm mt-2'>{category.name}</p>
-              </div>
-            ))}
+    <div className='container mx-auto'>
+      <Row className='w-full h-screen'>
+        <Col span={12} className='mt-44'>
+          <h1 className='text-[120px] font-bold leading-[120px] uppercase' style={{ fontFamily: 'Roboto' }}>
+            Vomero 5
+          </h1>
+          <h2 className='text-7xl font-bold ml-2 uppercase' style={{ fontFamily: 'Roboto' }}>
+            The thunder
+          </h2>
+          <p className='mt-32'>
+            The Vomero 5 takes early-2000s running to modern heights. A combination of breathable and durable materials
+            stands ready for the rigours of your day, while Zoom Air cushioning delivers a smooth ride.
+          </p>
+          <button className='px-6 py-4 bg-black text-white text-xl mt-10'>Shop now</button>
+        </Col>
+        <Col span={12} className='flex items-center justify-center w-full h-full'>
+          <div
+            className='w-[400px] h-[400px] rounded-full flex items-center justify-center'
+            style={{ background: 'linear-gradient(140deg, rgba(29,29,29,1) 0%, rgba(172,172,172,1) 94%)' }}
+          >
+            <img
+              className='-rotate-45 scale-125'
+              src='http://localhost:4000/v1/api/static/sneaker_demo.png'
+              alt='SNEAKER_DEMO'
+            />
           </div>
-          <div className='w-full h-[200vh] bg-white rounded-md p-4'>
-            <h1 className='text-xl font-bold text-primary'>Top Deals:</h1>
-            <div className='mt-4'>
-              {Product?.metadata.map((product) => (
-                <ProductCard key={product.id} data={product} />
-              ))}
-            </div>
-          </div>
+        </Col>
+      </Row>
+      <div className='w-full'>
+        <div className='flex justify-between items-end mt-4'>
+          <p className='uppercase font-bold text-3xl'>New Collection</p>
+          <p className='uppercase font-bold flex items-center text-gray-400 cursor-pointer group'>
+            View All <FaAngleRight className='transition-transform group-hover:translate-x-1' />
+          </p>
         </div>
+        <Row className='mt-8' gutter={[85, 40]}>
+          <Col>
+            <ProductCard />
+          </Col>
+          <Col>
+            <ProductCard />
+          </Col>
+          <Col>
+            <ProductCard />
+          </Col>
+          <Col>
+            <ProductCard />
+          </Col>
+        </Row>
       </div>
-    </main>
+      <div className='py-36'>
+        <p className='uppercase font-bold text-3xl my-4'>Featured Collection</p>
+        <Row gutter={20} className='text-white'>
+          <Col span={12} className='w-full h-[720px] relative rounded-sm overflow-hidden group cursor-pointer'>
+            <img
+              className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
+              src='http://localhost:4000/v1/api/static/Sneaker_brand.png'
+              alt='SNEAKER_DEMO'
+            />
+            <div className='w-full h-full bg-black absolute top-0 left-0 opacity-60 group-hover:opacity-75 transition-opacity duration-500' />
+            <div className='absolute bottom-14 left-10 text-2xl flex items-center'>
+              <h1 className='font-extrabold uppercase'>All Product</h1>
+              <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
+            </div>
+          </Col>
+          <Col span={12} className='space-y-3'>
+            <div className='relative cursor-pointer w-full h-[354px] rounded-sm overflow-hidden group'>
+              <img
+                src='http://localhost:4000/v1/api/static/Sneaker_running.jpg'
+                className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
+                alt='SNEAKER_Running'
+              />
+              <div className='w-full h-full bg-black absolute top-0 left-0 opacity-60 group-hover:opacity-75 transition-opacity duration-500' />
+              <div className='absolute bottom-14 left-10 text-2xl flex items-center'>
+                <h1 className='font-extrabold uppercase'>Running/Sport</h1>
+                <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
+              </div>
+            </div>
+            <div className='relative cursor-pointer w-full h-[354px] rounded-sm overflow-hidden group'>
+              <img
+                src='http://localhost:4000/v1/api/static/Sneaker_basketball.JPG'
+                className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
+                alt='SNEAKER_Running'
+              />
+              <div className='w-full h-full bg-black absolute top-0 left-0 opacity-60 group-hover:opacity-75 transition-opacity duration-500' />
+              <div className='absolute bottom-14 left-10 text-2xl flex items-center'>
+                <h1 className='font-extrabold uppercase'>Basketball Collection</h1>
+                <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </div>
+    </div>
   );
 }

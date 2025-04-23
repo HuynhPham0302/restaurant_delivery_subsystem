@@ -20,15 +20,15 @@ export function Header() {
       <h1 className='text-2xl font-bold'>LOGO</h1>
       <Input.Search
         prefix={<IoSearchOutline className='mr-2' />}
-        placeholder='Tìm kiếm các sản phẩm ...'
+        placeholder='Searching product...'
         allowClear
-        enterButton='Tìm kiếm'
+        enterButton='Search'
         size='large'
       />
       <div className='h-full flex items-center space-x-3 group/icon'>
         <Link to='/'>
           <Button icon={<FaHome className='inline mb-[3px] text-gray-600' size={18} />} size='large' type='text'>
-            Trang chủ
+            Home
           </Button>
         </Link>
         <Link to='/auth/login'>
@@ -46,7 +46,7 @@ export function Header() {
             }
             size='large'
           >
-            {user?.metadata.user.username || 'Tài khoản'}
+            {user?.metadata.user.username || 'Account'}
           </Button>
         </Link>
         <Divider type='vertical' style={{ height: '50%' }} />

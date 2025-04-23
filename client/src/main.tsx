@@ -1,18 +1,18 @@
 import { StyleProvider } from '@ant-design/cssinjs';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ConfigProvider, ThemeConfig } from 'antd';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import Routers from './router.tsx';
 import './styles/index.css';
-import { ConfigProvider, ThemeConfig } from 'antd';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 
 const theme: ThemeConfig = {
   token: {
-    fontFamily: 'Inter, sans-serif',
+    fontFamily: 'Quicksand, sans-serif',
     colorPrimary: '#2F27CE',
   },
 };
