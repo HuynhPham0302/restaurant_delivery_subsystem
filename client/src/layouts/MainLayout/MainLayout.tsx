@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from '../Header';
+import { Footer } from '../Footer';
 
 export function MainLayout() {
   return (
@@ -12,6 +13,7 @@ export function MainLayout() {
       <main className='bg-slate-100'>
         <Outlet />
       </main>
+      <Footer />
     </main>
   );
 }
