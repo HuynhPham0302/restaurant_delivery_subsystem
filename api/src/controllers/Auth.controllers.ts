@@ -2,6 +2,7 @@
 
 import { Request, Response } from 'express';
 import AuthService from '../services/Auth.services';
+import { TJwtPayload } from '../utils/Jwt.utils';
 
 class AuthController {
   async getProfile(req: Request, res: Response) {
@@ -23,7 +24,7 @@ class AuthController {
 
   // Verify data user from google provider
   async googleProvider(req: Request, res: Response) {
-    const user_data = req.user;
+    const user_data = req.user as TJwtPayload;
     const response = await AuthService.googleProvider(user_data);
     return res.status(response.status_code).json(response);
   }

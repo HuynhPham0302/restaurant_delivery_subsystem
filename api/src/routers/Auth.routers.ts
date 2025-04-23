@@ -10,7 +10,7 @@ AuthRouter.post('/register', AuthController.register);
 AuthRouter.post('/login', AuthController.login);
 
 // Redirect to Google for login
-AuthRouter.get('/google', GoogleMiddle, (req, res) => {
+AuthRouter.get('/google', GoogleMiddle, (_, res) => {
   res.send('Redirect to Google for login');
 });
 

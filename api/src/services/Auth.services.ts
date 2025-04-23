@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import prismaInstance from '../configs/database.config';
 import { TLogin, TRegister } from '../dto/Auth.dto';
-import JWT from '../utils/Jwt.utils';
+import JWT, { TJwtPayload } from '../utils/Jwt.utils';
 import TRes from '../utils/Response.utils';
 import { UnauthorizedError } from '../utils/Error.utils';
 
@@ -65,9 +65,14 @@ class AuthService {
   }
 
   // Use Google Strategy login
-  async googleProvider(data: any) {
-    console.log(data);
-    return TRes.success(data, 200, 'Google login success');
+  async googleProvider(data: TJwtPayload) {
+    const token = JWT.sign({
+      id: data.id,
+      provider: data.provider,
+      role: data.role,
+      email: data.email,
+    });
+    return TRes.success({ ...data, token }, 200, 'Google login success');
   }
 }
 

@@ -7,7 +7,11 @@ import GooglePassport from 'passport-google-oauth20';
 import prismaInstance from '../configs/database.config';
 import jwt, { TJwtPayload } from '../utils/Jwt.utils';
 
-const { GOOGLE_CLIENT_ID = 'abc', GOOGLE_CLIENT_SECRET = 'ABC', HOSTNAME = 'http://localhost:4000' } = process.env;
+const {
+  GOOGLE_CLIENT_ID = 'abc',
+  GOOGLE_CLIENT_SECRET = 'ABC',
+  CLIENT_HOSTNAME = 'http://localhost:5173',
+} = process.env;
 
 const ProfileModel = prismaInstance.profile;
 
@@ -56,7 +60,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: `http://localhost:5173/auth/callback/google`,
+      callbackURL: `${CLIENT_HOSTNAME}/auth/callback/google`,
     },
     async function (accessToken, refreshToken, profile, done) {
       try {
