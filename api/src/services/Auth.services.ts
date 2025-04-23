@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt';
 import prismaInstance from '../configs/database.config';
 import { TLogin, TRegister } from '../dto/Auth.dto';
+import JWT from '../utils/Jwt.utils';
 import TRes from '../utils/Response.utils';
+import { UnauthorizedError } from '../utils/Error.utils';
 
 class AuthService {
   private ProfileModel = prismaInstance.profile;
@@ -41,6 +43,7 @@ class AuthService {
     const profile = await this.ProfileModel.findUnique({
       where: {
         email: data.email,
+        provider: 'local',
         is_blocked: false,
         is_deleted: false,
       },
@@ -49,13 +52,18 @@ class AuthService {
       },
     });
     if (!profile) {
-      return TRes.error(null, 404, 'Email or password is wrong');
+      throw new UnauthorizedError('Email or password is wrong');
     }
     const isPasswordMatch = bcrypt.compareSync(data.password, profile.password);
     if (!isPasswordMatch) {
-      return TRes.error(null, 401, 'Email or password is wrong');
+      throw new UnauthorizedError('Email or password is wrong');
     }
-    return TRes.success(profile, 200, 'Login success');
+    const token = JWT.sign({ id: profile.id, provider: profile.provider, role: profile.role, email: profile.email });
+    return TRes.success({ ...profile, token }, 200, 'Login success');
+  }
+
+  async googleProvider() {
+    return TRes.success({}, 200, 'Google provider success');
   }
 }
 

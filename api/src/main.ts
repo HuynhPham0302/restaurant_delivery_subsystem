@@ -5,14 +5,13 @@ import express, { NextFunction, Request, Response, json } from 'express';
 import 'express-async-errors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import passport from 'passport';
 import RootRouter from './routers';
 import { ErrorResponse } from './utils/Error.utils';
-import session from 'express-session';
-import passport from 'passport';
 
 dotenv.config();
 const app = express();
-const { PORT = '3000', SECRET_KEY = 'ABC' } = process.env;
+const { PORT = '3000' } = process.env;
 
 app.use(morgan('dev'));
 app.use(helmet());
@@ -29,15 +28,14 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next(err);
 });
 
-app.use((err: ErrorResponse, req: Request, res: Response, next: NextFunction) => {
-  const message = err.message || 'Internal Server Error';
-  return res.status(err.status_code || 500).json({
+app.use((err: ErrorResponse, req: Request, res: Response, next: NextFunction) =>
+  res.status(err.status_code || 500).json({
     status: 'error',
     status_code: err.status_code || 500,
-    message,
+    message: err.message || 'Internal Server Error',
     error: err.error,
-  });
-});
+  }),
+);
 
 app.listen(PORT, () => {
   console.log(`Server is ready at http://localhost:${PORT}`);
