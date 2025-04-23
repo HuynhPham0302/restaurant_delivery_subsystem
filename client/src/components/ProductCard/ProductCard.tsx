@@ -9,8 +9,8 @@ export function ProductCard() {
         />
       </div>
       <div className='mt-4'>
-        <p className='font-bold'>NIKE</p>
-        <p>Nike Zoom Vomero 5 - Anthracite</p>
+        <p className='font-bold text-black'>NIKE</p>
+        <p className='text-black'>Nike Zoom Vomero 5 - Anthracite</p>
         <p className='text-primary font-bold text-xl'>$160</p>
       </div>
     </div>

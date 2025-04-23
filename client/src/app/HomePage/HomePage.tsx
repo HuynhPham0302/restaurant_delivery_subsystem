@@ -1,6 +1,7 @@
 import { ProductCard } from '@/components/ProductCard';
 import { Col, Row } from 'antd';
 import { FaAngleRight } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 export function HomePage() {
   return (
@@ -41,23 +42,31 @@ export function HomePage() {
         </div>
         <Row className='mt-8' gutter={[85, 40]}>
           <Col>
-            <ProductCard />
+            <Link to='/product/thunder'>
+              <ProductCard />
+            </Link>
           </Col>
           <Col>
-            <ProductCard />
+            <Link to='/product/thunder'>
+              <ProductCard />
+            </Link>
           </Col>
           <Col>
-            <ProductCard />
+            <Link to='/product/thunder'>
+              <ProductCard />
+            </Link>
           </Col>
           <Col>
-            <ProductCard />
+            <Link to='/product/thunder'>
+              <ProductCard />
+            </Link>
           </Col>
         </Row>
       </div>
       <div className='py-36'>
         <p className='uppercase font-bold text-3xl my-4'>Featured Collection</p>
         <Row gutter={20} className='text-white'>
-          <Col span={12} className='w-full h-[720px] relative rounded-sm overflow-hidden group cursor-pointer'>
+          <Col span={10} className='w-full h-[720px] relative rounded-sm overflow-hidden group cursor-pointer'>
             <img
               className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
               src='http://localhost:4000/v1/api/static/Sneaker_brand.png'
@@ -69,7 +78,7 @@ export function HomePage() {
               <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
             </div>
           </Col>
-          <Col span={12} className='space-y-3'>
+          <Col span={14} className='space-y-3'>
             <div className='relative cursor-pointer w-full h-[354px] rounded-sm overflow-hidden group'>
               <img
                 src='http://localhost:4000/v1/api/static/Sneaker_running.jpg'

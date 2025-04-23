@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 const theme: ThemeConfig = {
   token: {
     fontFamily: 'Quicksand, sans-serif',
-    colorPrimary: '#2F27CE',
+    colorPrimary: '#000',
   },
 };
 

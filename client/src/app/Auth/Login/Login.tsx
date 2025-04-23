@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TProfile } from '@/types/Profile.types';
 import HTTP from '@/utils/Http.utils';
-import { TResponse } from '@/utils/TRes.utils';
+import { TResponse } from '@/utils/Http.utils';
 import { Button, Col, Divider, Form, Input, Row, notification } from 'antd';
 import { Rule } from 'antd/es/form';
 import Cookies from 'js-cookie';
