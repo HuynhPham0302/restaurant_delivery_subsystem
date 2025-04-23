@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import prismaInstance from '../configs/database.config';
-import { TLogin, TRegister } from '../dto/Auth.dto';
+import { TRegister } from '../dto/Auth.dto';
 import TRes from '../utils/Response.utils';
 
 class AuthService {
@@ -35,27 +35,6 @@ class AuthService {
       },
     });
     return TRes.success(profile, 201, 'Register success');
-  }
-
-  async login(data: TLogin) {
-    const profile = await this.ProfileModel.findUnique({
-      where: {
-        email: data.email,
-        is_blocked: false,
-        is_deleted: false,
-      },
-      include: {
-        user: true,
-      },
-    });
-    if (!profile) {
-      return TRes.error(null, 404, 'Email or password is wrong');
-    }
-    const isPasswordMatch = bcrypt.compareSync(data.password, profile.password);
-    if (!isPasswordMatch) {
-      return TRes.error(null, 401, 'Email or password is wrong');
-    }
-    return TRes.success(profile, 200, 'Login success');
   }
 }
 
