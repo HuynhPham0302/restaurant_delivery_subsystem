@@ -34,6 +34,7 @@ model User {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   Cart         Cart[]
+  Order        Order[]
 }
 
 model Category {
@@ -58,43 +59,80 @@ model Product {
   slug        String
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
-  category    Category         @relation(fields: [categoryId], references: [id])
-  categoryId  Int
+  category    Category         @relation(fields: [category_id], references: [id])
+  category_id Int
   items       Product_item[]
   images      Product_images[]
 }
 
 model Product_item {
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   type        String
-  description String?  @db.LongText
+  description String?     @db.LongText
   price       Float
-  is_discount Boolean  @default(false)
-  discount    Float    @default(0)
+  is_discount Boolean     @default(false)
+  discount    Float       @default(0)
   stock       Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  product     Product  @relation(fields: [productId], references: [id])
-  productId   Int
-  Cart        Cart[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  product     Product     @relation(fields: [product_id], references: [id])
+  product_id  Int
+  CartItem    CartItem[]
+  OrderItem   OrderItem[]
 }
 
 model Product_images {
-  id        Int      @id @default(autoincrement())
-  url       String
-  product   Product  @relation(fields: [productId], references: [id])
-  productId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  url        String
+  product    Product  @relation(fields: [product_id], references: [id])
+  product_id Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Cart {
-  id            Int          @id @default(autoincrement())
-  user          User         @relation(fields: [userId], references: [id])
-  userId        Int
-  product_item  Product_item @relation(fields: [productItemId], references: [id])
-  productItemId Int
-  quantity      Int
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  id        Int        @id @default(autoincrement())
+  user      User       @relation(fields: [user_id], references: [id])
+  user_id   Int
+  status    String     @default("active")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  CartItem  CartItem[]
+}
+
+model CartItem {
+  id              Int          @id @default(autoincrement())
+  cart            Cart         @relation(fields: [cart_id], references: [id])
+  cart_id         Int
+  product_item    Product_item @relation(fields: [product_item_id], references: [id])
+  product_item_id Int
+  quantity        Int
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model Order {
+  id           Int         @id @default(autoincrement())
+  user         User        @relation(fields: [user_id], references: [id])
+  user_id      Int
+  status       String      @default("pending")
+  total_price  Float
+  fullName     String
+  address      String
+  phone_number String
+  postal_code  String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  OrderItem    OrderItem[]
+}
+
+model OrderItem {
+  id              Int          @id @default(autoincrement())
+  order           Order        @relation(fields: [order_id], references: [id])
+  order_id        Int
+  product_item    Product_item @relation(fields: [product_item_id], references: [id])
+  product_item_id Int
+  quantity        Int
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 }

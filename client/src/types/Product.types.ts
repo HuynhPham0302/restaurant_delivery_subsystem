@@ -6,6 +6,7 @@ export type TProduct_item = {
   is_discount: boolean;
   discount: number;
   stock: number;
+  product: TProduct;
   createdAt: string;
   updatedAt: string;
 };

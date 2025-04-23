@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 export function HomePage() {
   const { data: products } = useQuery<TResponse<TProduct[]>>({
     queryKey: ['products'],
-    queryFn: async () => await HTTP.get('/product'),
+    queryFn: async () => await HTTP.GET('/product'),
   });
 
   return (
@@ -44,9 +44,11 @@ export function HomePage() {
       <div className='w-full'>
         <div className='flex justify-between items-end mt-4'>
           <p className='uppercase font-bold text-3xl'>New Collection</p>
-          <p className='uppercase font-bold flex items-center text-gray-400 cursor-pointer group'>
-            View All <FaAngleRight className='transition-transform group-hover:translate-x-1' />
-          </p>
+          <Link to='/product'>
+            <p className='uppercase font-bold flex items-center text-gray-400 cursor-pointer group'>
+              View All <FaAngleRight className='transition-transform group-hover:translate-x-1' />
+            </p>
+          </Link>
         </div>
         <Row className='mt-8' gutter={[85, 40]}>
           {products?.metadata.map((product) => (
@@ -62,30 +64,34 @@ export function HomePage() {
         <p className='uppercase font-bold text-3xl my-4'>Featured Collection</p>
         <Row gutter={20} className='text-white'>
           <Col span={10} className='w-full h-[720px] relative rounded-sm overflow-hidden group cursor-pointer'>
-            <img
-              className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
-              src='http://localhost:4000/v1/api/static/Sneaker_brand.png'
-              alt='SNEAKER_DEMO'
-            />
-            <div className='w-full h-full bg-black absolute top-0 left-0 opacity-60 group-hover:opacity-75 transition-opacity duration-500' />
-            <div className='absolute bottom-14 left-10 text-2xl flex items-center'>
-              <h1 className='font-extrabold uppercase'>All Product</h1>
-              <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
-            </div>
-          </Col>
-          <Col span={14} className='space-y-3'>
-            <div className='relative cursor-pointer w-full h-[354px] rounded-sm overflow-hidden group'>
+            <Link to='/product'>
               <img
-                src='http://localhost:4000/v1/api/static/Sneaker_running.jpg'
                 className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
-                alt='SNEAKER_Running'
+                src='http://localhost:4000/v1/api/static/Sneaker_brand.png'
+                alt='SNEAKER_DEMO'
               />
               <div className='w-full h-full bg-black absolute top-0 left-0 opacity-60 group-hover:opacity-75 transition-opacity duration-500' />
               <div className='absolute bottom-14 left-10 text-2xl flex items-center'>
-                <h1 className='font-extrabold uppercase'>Running/Sport</h1>
+                <h1 className='font-extrabold uppercase'>All Product</h1>
                 <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
               </div>
-            </div>
+            </Link>
+          </Col>
+          <Col span={14} className='space-y-3'>
+            <Link to='/product'>
+              <div className='relative cursor-pointer w-full h-[354px] rounded-sm overflow-hidden group'>
+                <img
+                  src='http://localhost:4000/v1/api/static/Sneaker_running.jpg'
+                  className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
+                  alt='SNEAKER_Running'
+                />
+                <div className='w-full h-full bg-black absolute top-0 left-0 opacity-60 group-hover:opacity-75 transition-opacity duration-500' />
+                <div className='absolute bottom-14 left-10 text-2xl flex items-center'>
+                  <h1 className='font-extrabold uppercase'>Running/Sport</h1>
+                  <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
+                </div>
+              </div>
+            </Link>
             <div className='relative cursor-pointer w-full h-[354px] rounded-sm overflow-hidden group'>
               <img
                 src='http://localhost:4000/v1/api/static/Sneaker_basketball.JPG'

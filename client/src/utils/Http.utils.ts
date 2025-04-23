@@ -1,6 +1,5 @@
-import axios, { AxiosInstance } from 'axios';
-import Cookie from 'js-cookie';
-import qs from 'qs';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Cookies from 'js-cookie';
 
 export type TResponse<T> = {
   status: string;
@@ -9,37 +8,59 @@ export type TResponse<T> = {
   metadata: T;
 };
 
-class CreateAxiosInstance {
-  instance: AxiosInstance;
+class HTTP {
+  private baseURL: string = import.meta.env.VITE_BACKEND_URL + '/v1/api';
+  private token: string | null = Cookies.get('token') || null;
 
-  constructor() {
-    const axiosInstance = axios.create({
-      baseURL: import.meta.env.VITE_BACKEND_URL + '/v1/api/',
+  async GET<T>(url: string) {
+    return await fetch(this.baseURL + url, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    }).then((res) => res.json() as Promise<T>);
+  }
+
+  async POST<T>(url: string, data: any) {
+    return await fetch(this.baseURL + url, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.token}`,
       },
-      paramsSerializer: (params) => qs.stringify(params, { encodeValuesOnly: true }),
-    });
+      body: JSON.stringify(data),
+    }).then((res) => res.json() as Promise<T>);
+  }
 
-    axiosInstance.interceptors.request.use((config) => {
-      const token = Cookie.get('token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    });
-
-    axiosInstance.interceptors.response.use(
-      (response) => response.data,
-      (error) => {
-        return Promise.reject(error);
+  async PUT<T>(url: string, data: any) {
+    return await fetch(this.baseURL + url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.token}`,
       },
-    );
+      body: JSON.stringify(data),
+    }).then((res) => res.json() as Promise<T>);
+  }
 
-    this.instance = axiosInstance;
+  async PATCH<T>(url: string, data: any) {
+    return await fetch(this.baseURL + url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.token}`,
+      },
+      body: JSON.stringify(data),
+    }).then((res) => res.json() as Promise<T>);
+  }
+
+  async DELETE<T>(url: string) {
+    return await fetch(this.baseURL + url, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    }).then((res) => res.json() as Promise<T>);
   }
 }
 
-const HTTP = new CreateAxiosInstance().instance;
-
-export default HTTP;
+export default new HTTP();

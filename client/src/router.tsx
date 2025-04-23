@@ -5,6 +5,10 @@ import { HomePage } from './app/HomePage';
 import { MainLayout } from './layouts/MainLayout';
 import { ProductPage } from './app/ProductPage';
 import { ProductDetail } from './app/ProductPage/ProductDetail';
+import CartPage from './app/CartPage/CartPage';
+import AdminLayout from './app/Admin/layout';
+import AdminOrder from './app/Admin/Order';
+import CheckOut from './app/Checkout';
 
 const Routers = createBrowserRouter([
   {
@@ -14,6 +18,8 @@ const Routers = createBrowserRouter([
       { path: '/', element: <HomePage /> },
       { path: '/product', element: <ProductPage /> },
       { path: '/product/:slug', element: <ProductDetail /> },
+      { path: '/cart', element: <CartPage /> },
+      { path: '/checkout/success', element: <CheckOut /> },
     ],
   },
   {
@@ -22,6 +28,11 @@ const Routers = createBrowserRouter([
       { path: '/auth/login', element: <Login /> },
       { path: '/auth/callback/google', element: <GoogleCallback /> },
     ],
+  },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [{ path: '/admin/order', element: <AdminOrder /> }],
   },
 ]);
 

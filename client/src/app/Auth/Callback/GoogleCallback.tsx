@@ -11,11 +11,11 @@ type TGoogleData = TResponse<{ token: string }>;
 export function GoogleCallback() {
   const location = useLocation();
   const navigate = useNavigate();
-  const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/auth/google/callback?code=${location.search.split('=')[1]}`;
+  const url = `/auth/google/callback?code=${location.search.split('=')[1]}`;
 
   const { isError, data } = useQuery<TGoogleData>({
     queryKey: ['google'],
-    queryFn: async () => await HTTP.get(url),
+    queryFn: async () => await HTTP.GET(url),
   });
 
   if (isError) {
@@ -24,6 +24,7 @@ export function GoogleCallback() {
   }
 
   if (data) {
+    console.log(data);
     Cookies.set('token', data.metadata.token, { expires: 7 });
     navigate('/');
   }

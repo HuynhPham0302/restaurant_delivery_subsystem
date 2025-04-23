@@ -1,9 +1,10 @@
+import { CartIcon } from '@/components/CartIcon';
 import { TProfile } from '@/types/Profile.types';
 import HTTP, { type TResponse } from '@/utils/Http.utils';
 import { useQuery } from '@tanstack/react-query';
-import { Avatar, Badge, Button, Divider, Input } from 'antd';
+import { Avatar, Button, Divider, Input } from 'antd';
 import Cookies from 'js-cookie';
-import { FaHome, FaShoppingCart } from 'react-icons/fa';
+import { FaHome } from 'react-icons/fa';
 import { FaRegFaceSmile } from 'react-icons/fa6';
 import { IoSearchOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
@@ -15,11 +16,23 @@ export function Header() {
     error,
   } = useQuery<TResponse<TProfile>>({
     queryKey: ['me'],
-    queryFn: async () => await HTTP.get('/auth/me'),
+    queryFn: async () => await HTTP.GET('/auth/me'),
     enabled: !!Cookies.get('token'),
   });
 
   if (error) Cookies.remove('token');
+
+  const navigateUser = (user: TProfile | undefined) => {
+    if (!user) {
+      return '/auth/login';
+    } else if (user.role === 'admin') {
+      return '/admin';
+    } else if (user.role === 'user') {
+      return '/';
+    } else {
+      return '/auth/login';
+    }
+  };
 
   return (
     <div className='w-full h-16 py-2 flex items-center justify-center space-x-10'>
@@ -37,7 +50,7 @@ export function Header() {
             Home
           </Button>
         </Link>
-        <Link to='/auth/login'>
+        <Link to={navigateUser(user?.metadata)}>
           <Button
             loading={isLoading}
             icon={
@@ -56,9 +69,7 @@ export function Header() {
           </Button>
         </Link>
         <Divider type='vertical' style={{ height: '50%' }} />
-        <Badge count={5} size='small' className='cursor-pointer'>
-          <FaShoppingCart size={25} className='text-gray-600' />
-        </Badge>
+        <CartIcon />
       </div>
     </div>
   );

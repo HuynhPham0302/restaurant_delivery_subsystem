@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BackIcon } from '@/components/BackIcon';
 import { OptionSelection } from '@/components/OptionSelection';
+import { TCart } from '@/types/Cart.types';
 import { TProduct, TProduct_item } from '@/types/Product.types';
+import { TProfile } from '@/types/Profile.types';
 import HTTP, { TResponse } from '@/utils/Http.utils';
-import { useQuery } from '@tanstack/react-query';
-import { Button, Col, Descriptions, DescriptionsProps, Divider, Radio, Row, Spin } from 'antd';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Button, Col, Descriptions, DescriptionsProps, Divider, Radio, Row, Spin, notification } from 'antd';
+import Cookies from 'js-cookie';
 import { useEffect, useMemo, useState } from 'react';
 import { BiSolidShoppingBagAlt } from 'react-icons/bi';
 import { useParams } from 'react-router-dom';
@@ -18,15 +21,25 @@ import { EffectFade, FreeMode, Navigation, Pagination, Thumbs } from 'swiper/mod
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 export function ProductDetail() {
+  const is_login = Cookies.get('token') ? true : false;
+  const queryClient = useQueryClient();
   const { slug } = useParams<{ slug: string }>();
   const [thumbsSwiper, setThumbsSwiper] = useState<TSwiper | null>(null);
   const [product_item, setProductItem] = useState<TProduct_item | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [api, contextHolder] = notification.useNotification();
   const key = `product_${slug}`;
 
   const { data: res } = useQuery<TResponse<TProduct[]>>({
     queryKey: [key],
-    queryFn: async () => await HTTP.get(`/product?slug=${slug}`),
+    queryFn: async () => await HTTP.GET(`/product?slug=${slug}`),
+  });
+
+  const { data: user } = useQuery<TResponse<TProfile>>({
+    queryKey: ['me'],
+    queryFn: async () => await HTTP.GET('/auth/me'),
+    enabled: !!Cookies.get('token'),
   });
 
   const product = useMemo(() => res?.metadata[0], [res]);
@@ -52,8 +65,59 @@ export function ProductDetail() {
     return items;
   };
 
+  const handleAddToCart = async (item: TProduct_item) => {
+    setLoading(true);
+    const cart_id = Cookies.get('cart_id');
+    if (cart_id) {
+      const res = await HTTP.POST<TResponse<TCart>>(`/cart/${cart_id}`, {
+        user_id: user?.metadata.id,
+        product_item_id: item.id,
+        quantity,
+      });
+      if (res.status_code === 200) {
+        queryClient.invalidateQueries({ queryKey: ['cart'] });
+        api.success({
+          message: 'Add to cart successfully',
+          description: 'You can view your cart in the cart page!',
+          placement: 'bottomRight',
+        });
+      } else {
+        api.error({
+          message: 'Add to cart failed',
+          description: res.message,
+          placement: 'bottomRight',
+        });
+      }
+    } else {
+      const res = await HTTP.POST<TResponse<TCart>>('/cart', {
+        user_id: user?.metadata.id,
+        product_item_id: item.id,
+        quantity,
+      });
+
+      console.log(res);
+      if (res.status_code === 201) {
+        Cookies.set('cart_id', String(res.metadata.id));
+        queryClient.invalidateQueries({ queryKey: ['cart'] });
+        api.success({
+          message: 'Add to cart successfully',
+          description: 'You can view your cart in the cart page!',
+          placement: 'bottomRight',
+        });
+      } else {
+        api.error({
+          message: 'Add to cart failed',
+          description: res.message,
+          placement: 'bottomRight',
+        });
+      }
+    }
+    setLoading(false);
+  };
+
   return (
     <div className='container mx-auto py-20'>
+      {contextHolder}
       <BackIcon />
       {product ? (
         <Row className='mt-10 relative'>
@@ -144,10 +208,13 @@ export function ProductDetail() {
             <Button
               size='large'
               type='primary'
+              disabled={!is_login || loading}
+              loading={loading}
+              onClick={() => handleAddToCart(product_item!)}
               icon={<BiSolidShoppingBagAlt className='inline' />}
               className='uppercase text-2xl w-full mt-6 font-bold leading-3'
             >
-              <span>Add to Bag</span>
+              {is_login ? 'Add to Bag' : 'Login to Buy'}
             </Button>
             <Divider />
             <div>

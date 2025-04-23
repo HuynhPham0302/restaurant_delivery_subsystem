@@ -37,7 +37,7 @@ export function Login() {
 
   const handleSubmit = async (values: LoginProps) => {
     try {
-      const { data } = await HTTP.post<TProfileLogin>('/auth/login', values);
+      const data = await HTTP.POST<TProfileLogin>('/auth/login', values);
       api.success({
         message: 'Đăng nhập thành công!',
         description: `Chào mừng ${data.metadata.user.username} quay trở lại!`,
@@ -60,31 +60,29 @@ export function Login() {
       {contextHolder}
       <Row className='w-1/2 h-[70%] bg-white rounded-lg shadow-xl overflow-hidden'>
         <Col span={16} className='p-8'>
-          <h1 className='text-3xl font-medium'>Xin chào!</h1>
-          <h4 className='text-base mt-3'>Đăng nhập hoặc đăng ký tài khoản mới!</h4>
+          <h1 className='text-3xl font-bold'>Hello!</h1>
+          <h4 className='text-base mt-3'>Login or Register new account!</h4>
           <div className='mt-4'>
             <Form onFinish={handleSubmit} layout='vertical' requiredMark={false}>
               <Form.Item label='Email:' name='email' rules={VALIDATE.EMAIL}>
                 <Input size='large' prefix={<MdAlternateEmail className='text-gray-500' />} />
               </Form.Item>
-              <Form.Item label='Mật khẩu:' name='password' rules={VALIDATE.PASSWORD}>
+              <Form.Item label='Password:' name='password' rules={VALIDATE.PASSWORD}>
                 <Input.Password size='large' prefix={<MdOutlinePassword className='text-gray-500' />} />
               </Form.Item>
               <Button htmlType='submit' className='w-full mt-4' size='large' type='primary'>
-                Đăng nhập
+                Login
               </Button>
             </Form>
             <Divider>
-              <p className='text-gray-400'>Hoặc</p>
+              <p className='text-gray-400'>OR</p>
             </Divider>
             <div
               onClick={GoogleLogin}
               className='w-full h-14 bg-secondary/60 rounded-lg shadow-md flex items-center cursor-pointer px-6 group/button'
             >
               <FaGoogle size={20} className='text-gray-500 group-hover/button:text-primary transition-colors' />
-              <p className='text-gray-500 ml-4 group-hover/button:text-primary transition-colors'>
-                Đăng nhập với Google
-              </p>
+              <p className='text-gray-500 ml-4 group-hover/button:text-primary transition-colors'>Login with Google</p>
             </div>
           </div>
         </Col>
