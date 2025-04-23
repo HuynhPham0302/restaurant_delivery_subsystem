@@ -9,11 +9,17 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
 export function Header() {
-  const { isLoading, data: user } = useQuery<TResponse<TProfile>>({
+  const {
+    isLoading,
+    data: user,
+    error,
+  } = useQuery<TResponse<TProfile>>({
     queryKey: ['me'],
     queryFn: async () => await HTTP.get('/auth/me'),
     enabled: !!Cookies.get('token'),
   });
+
+  if (error) Cookies.remove('token');
 
   return (
     <div className='w-full h-16 py-2 flex items-center justify-center space-x-10'>

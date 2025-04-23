@@ -21,7 +21,12 @@ export type TProduct = {
   id: string;
   name: string;
   description: string;
-  meta: string;
+  image_cover: string;
+  sku: string;
+  brand: string;
+  meta: {
+    [key: string]: string;
+  };
   slug: string;
   category: string;
   images: TProduct_image[];

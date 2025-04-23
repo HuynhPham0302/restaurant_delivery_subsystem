@@ -1,9 +1,17 @@
 import { ProductCard } from '@/components/ProductCard';
+import { TProduct } from '@/types/Product.types';
+import HTTP, { TResponse } from '@/utils/Http.utils';
+import { useQuery } from '@tanstack/react-query';
 import { Col, Row } from 'antd';
 import { FaAngleRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export function HomePage() {
+  const { data: products } = useQuery<TResponse<TProduct[]>>({
+    queryKey: ['products'],
+    queryFn: async () => await HTTP.get('/product'),
+  });
+
   return (
     <div className='container mx-auto'>
       <Row className='w-full h-screen'>
@@ -41,26 +49,13 @@ export function HomePage() {
           </p>
         </div>
         <Row className='mt-8' gutter={[85, 40]}>
-          <Col>
-            <Link to='/product/thunder'>
-              <ProductCard />
-            </Link>
-          </Col>
-          <Col>
-            <Link to='/product/thunder'>
-              <ProductCard />
-            </Link>
-          </Col>
-          <Col>
-            <Link to='/product/thunder'>
-              <ProductCard />
-            </Link>
-          </Col>
-          <Col>
-            <Link to='/product/thunder'>
-              <ProductCard />
-            </Link>
-          </Col>
+          {products?.metadata.map((product) => (
+            <Col key={product.id}>
+              <Link to={`/product/${product.slug}`}>
+                <ProductCard data={product} />
+              </Link>
+            </Col>
+          ))}
         </Row>
       </div>
       <div className='py-36'>

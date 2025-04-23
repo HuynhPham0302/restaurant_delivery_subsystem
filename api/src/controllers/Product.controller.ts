@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { CreateProductDto, CreateProductSchema } from '../dto/Product.dto';
 import ProductServices from '../services/Product.services';
 import { ValidationData } from '../utils/Validation.utils';
+import { dataFilter } from '../utils/Response.utils';
 
 class ProductController {
   async create(req: Request, res: Response) {
@@ -11,7 +12,8 @@ class ProductController {
   }
 
   async get(req: Request, res: Response) {
-    const response = await ProductServices.get();
+    const { filter, query } = dataFilter(req.query);
+    const response = await ProductServices.get(filter, query);
     return res.status(response.status_code).json(response);
   }
 

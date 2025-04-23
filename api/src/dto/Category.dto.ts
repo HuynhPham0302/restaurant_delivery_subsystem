@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export type CreateCategoryDto = {
   name: string;
+  type: string;
   description: string;
   image: string;
 };

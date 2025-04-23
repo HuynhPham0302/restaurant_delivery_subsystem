@@ -1,7 +1,7 @@
 import slugify from 'slugify';
 import prismaInstance from '../configs/database.config';
 import { CreateProductDto, UpdateProductDto } from '../dto/Product.dto';
-import { Success } from '../utils/Response.utils';
+import { Filter, Success } from '../utils/Response.utils';
 
 class ProductServices {
   private productModel = prismaInstance.product;
@@ -11,6 +11,10 @@ class ProductServices {
       data: {
         name: data.name,
         description: data.description,
+        brand: data.brand,
+        image_cover: data.image_cover,
+        sku: data.sku,
+        meta: data.meta,
         slug: slugify(data.name, { lower: true }),
         category: {
           connect: {
@@ -30,18 +34,28 @@ class ProductServices {
       },
     });
 
-    return Success(product, 201, 'Product created successfully');
+    return Success(product, null, 201, 'Product created successfully');
   }
 
-  async get() {
+  async get(pagination: Filter, query: any) {
     const products = await this.productModel.findMany({
+      where: query,
+      skip: pagination.limit * (pagination.page - 1),
+      take: pagination.limit,
+      orderBy: {
+        [pagination.order]: pagination.sort,
+      },
       include: {
         items: true,
         images: true,
       },
     });
 
-    return Success(products, 200, 'Products retrieved successfully');
+    const total = await this.productModel.count({
+      where: query,
+    });
+
+    return Success(products, total, 200, 'Products retrieved successfully');
   }
 
   async getOne(id: number) {
@@ -55,7 +69,7 @@ class ProductServices {
       },
     });
 
-    return Success(product, 200, 'Product retrieved successfully');
+    return Success(product, null, 200, 'Product retrieved successfully');
   }
 
   async update(id: number, data: UpdateProductDto) {
@@ -85,7 +99,7 @@ class ProductServices {
       },
     });
 
-    return Success(product, 200, 'Product updated successfully');
+    return Success(product, null, 200, 'Product updated successfully');
   }
 
   async delete(id: number) {
@@ -95,7 +109,7 @@ class ProductServices {
       },
     });
 
-    return Success(null, 200, 'Product deleted successfully');
+    return Success(null, null, 200, 'Product deleted successfully');
   }
 }
 

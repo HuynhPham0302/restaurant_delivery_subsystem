@@ -38,7 +38,8 @@ model User {
 model Category {
   id          Int       @id @default(autoincrement())
   name        String    @unique
-  description String?
+  type        String
+  description String?   @db.LongText
   image       String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -48,8 +49,11 @@ model Category {
 model Product {
   id          Int              @id @default(autoincrement())
   name        String           @unique
-  description String?
+  description String?          @db.LongText
+  image_cover String
   meta        Json?
+  brand       String?
+  sku         String
   slug        String
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
@@ -62,7 +66,7 @@ model Product {
 model Product_item {
   id          Int      @id @default(autoincrement())
   type        String
-  description String?
+  description String?  @db.LongText
   price       Float
   is_discount Boolean  @default(false)
   discount    Float    @default(0)

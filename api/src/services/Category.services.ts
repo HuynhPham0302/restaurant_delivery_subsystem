@@ -1,6 +1,6 @@
 import prismaInstance from '../configs/database.config';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dto/Category.dto';
-import { Success } from '../utils/Response.utils';
+import { Filter, Success } from '../utils/Response.utils';
 
 class CategoryService {
   private CategoryModel = prismaInstance.category;
@@ -9,16 +9,28 @@ class CategoryService {
     const category = await this.CategoryModel.create({
       data: {
         name: data.name,
+        type: data.type,
         description: data.description,
         image: data.image,
       },
     });
-    return Success(category, 201, 'Create category success');
+    return Success(category, null, 201, 'Create category success');
   }
 
-  async get() {
-    const category = await this.CategoryModel.findMany();
-    return Success(category, 200, 'Get category success');
+  async get(pagination: Filter, query: any) {
+    const category = await this.CategoryModel.findMany({
+      where: query,
+      skip: pagination.limit * (pagination.page - 1),
+      take: pagination.limit,
+      orderBy: {
+        [pagination.order]: pagination.sort,
+      },
+    });
+
+    const total = await this.CategoryModel.count({
+      where: query,
+    });
+    return Success(category, total, 200, 'Get category success');
   }
 
   async getOne(id: number) {
@@ -27,7 +39,7 @@ class CategoryService {
         id,
       },
     });
-    return Success(category, 200, 'Get category success');
+    return Success(category, null, 200, 'Get category success');
   }
 
   async update(id: number, data: UpdateCategoryDto) {
@@ -41,7 +53,7 @@ class CategoryService {
         image: data.image,
       },
     });
-    return Success(category, 200, 'Update category success');
+    return Success(category, null, 200, 'Update category success');
   }
 
   async delete(id: number) {
@@ -50,7 +62,7 @@ class CategoryService {
         id,
       },
     });
-    return Success(category, 200, 'Delete category success');
+    return Success(category, null, 200, 'Delete category success');
   }
 }
 

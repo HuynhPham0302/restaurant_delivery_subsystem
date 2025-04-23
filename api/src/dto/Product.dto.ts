@@ -17,6 +17,12 @@ export type CreateProductDto = {
   name: string;
   description: string;
   categoryId: number;
+  image_cover: string;
+  brand: string;
+  sku: string;
+  meta: {
+    [key: string]: any;
+  };
   items: item_product[];
   image: image_product[];
 };

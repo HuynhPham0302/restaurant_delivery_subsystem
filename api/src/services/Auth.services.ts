@@ -14,7 +14,7 @@ class AuthService {
         user: true,
       },
     });
-    return Success(profiles, 200, 'Get profile success');
+    return Success(profiles, null, 200, 'Get profile success');
   }
 
   async register(data: TRegister) {
@@ -36,7 +36,7 @@ class AuthService {
         },
       },
     });
-    return Success(profile, 201, 'Register success');
+    return Success(profile, null, 201, 'Register success');
   }
 
   // Use Local Strategy (Email & Password) login
@@ -53,19 +53,19 @@ class AuthService {
       },
     });
     if (!profile) {
-      throw new UnauthorizedError('Email hoặc mật khẩu không đúng!');
+      throw new UnauthorizedError('Email or password is not valid!');
     }
     const isPasswordMatch = bcrypt.compareSync(data.password, profile.password!);
     if (!isPasswordMatch) {
-      throw new UnauthorizedError('Email hoặc mật khẩu không đúng!');
+      throw new UnauthorizedError('Email or password is not valid!');
     }
     // Generate JWT token
     const token = JWT.sign({ id: profile.id, provider: profile.provider, role: profile.role, email: profile.email });
-    return Success({ ...profile, token }, 200, 'Login success');
+    return Success({ ...profile, token }, null, 200, 'Login success');
   }
 
   async me(user: any) {
-    return Success(user, 200, 'Get profile success');
+    return Success(user, null, 200, 'Get profile success');
   }
 
   // Use Google Strategy login
@@ -76,7 +76,7 @@ class AuthService {
       role: data.role,
       email: data.email,
     });
-    return Success({ ...data, token }, 200, 'Google login success');
+    return Success({ ...data, token }, null, 200, 'Google login success');
   }
 }
 

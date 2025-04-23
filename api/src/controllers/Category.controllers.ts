@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ValidationData } from '../utils/Validation.utils';
 import { CreateCategoryDto, CreateCategorySchema, UpdateCategoryDto, UpdateCategorySchema } from '../dto/Category.dto';
 import CategoryService from '../services/Category.services';
+import { dataFilter } from '../utils/Response.utils';
 
 class CategoryController {
   async create(req: Request, res: Response) {
@@ -11,7 +12,8 @@ class CategoryController {
   }
 
   async get(req: Request, res: Response) {
-    const response = await CategoryService.get();
+    const { filter, query } = dataFilter(req.query);
+    const response = await CategoryService.get(filter, query);
     return res.status(response.status_code).json(response);
   }
 
