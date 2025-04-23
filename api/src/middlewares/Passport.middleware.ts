@@ -1,3 +1,6 @@
+// Code: passport middleware
+// This snippet is a middleware that uses passport to authenticate users using the Bearer token and Google OAuth2.0. It also uses the JWT token to verify the user's identity.
+
 import passport from 'passport';
 import BearerPassport from 'passport-http-bearer';
 import GooglePassport from 'passport-google-oauth20';
@@ -11,17 +14,23 @@ const ProfileModel = prismaInstance.profile;
 const BearerStrategy = BearerPassport.Strategy;
 const GoogleStrategy = GooglePassport.Strategy;
 
+// Middleware for Bearer token authentication
 const BearerMiddle = passport.authenticate('bearer', { session: false, failWithError: true });
+
+// Middleware for Google OAuth2.0 authentication
 const GoogleMiddle = passport.authenticate('google', {
   session: false,
   failWithError: true,
   scope: ['profile', 'email'],
 });
+
+// Middleware for Google OAuth2.0 callback
 const GoogleMiddleCallBack = passport.authenticate('google', {
   session: false,
   failWithError: true,
 });
 
+// Configure Strategies
 passport.use(
   new BearerStrategy((token, done) => {
     try {

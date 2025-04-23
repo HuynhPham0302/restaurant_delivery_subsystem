@@ -1,3 +1,6 @@
+// Configuration of custom errors
+
+// ErrorResponse class is the base class for all custom errors
 class ErrorResponse extends Error {
   constructor(public status_code: number, public message: string, public error: any = null) {
     super(message);

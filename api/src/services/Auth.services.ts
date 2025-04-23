@@ -39,6 +39,7 @@ class AuthService {
     return TRes.success(profile, 201, 'Register success');
   }
 
+  // Use Local Strategy (Email & Password) login
   async login(data: TLogin) {
     const profile = await this.ProfileModel.findUnique({
       where: {
@@ -58,10 +59,12 @@ class AuthService {
     if (!isPasswordMatch) {
       throw new UnauthorizedError('Email or password is wrong');
     }
+    // Generate JWT token
     const token = JWT.sign({ id: profile.id, provider: profile.provider, role: profile.role, email: profile.email });
     return TRes.success({ ...profile, token }, 200, 'Login success');
   }
 
+  // Use Google Strategy login
   async googleProvider() {
     return TRes.success({}, 200, 'Google provider success');
   }

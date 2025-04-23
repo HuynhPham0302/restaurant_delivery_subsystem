@@ -1,3 +1,5 @@
+// Code: Sign JWT token using JWT library
+
 import jwt from 'jsonwebtoken';
 
 export type TJwtPayload = {

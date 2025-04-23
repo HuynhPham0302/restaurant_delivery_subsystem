@@ -23,11 +23,13 @@ app.use(passport.initialize());
 
 app.use('/v1/api', RootRouter);
 
+// Error 404 Handler
 app.use((req: Request, res: Response, next: NextFunction) => {
   const err = new ErrorResponse(404, 'Not Found');
   next(err);
 });
 
+// Error 500 Handler
 app.use((err: ErrorResponse, req: Request, res: Response, next: NextFunction) =>
   res.status(err.status_code || 500).json({
     status: 'error',

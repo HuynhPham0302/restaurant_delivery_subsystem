@@ -1,3 +1,5 @@
+// Desc: Auth controller for handling requests and responses from Auth services
+
 import { Request, Response } from 'express';
 import AuthService from '../services/Auth.services';
 
@@ -19,8 +21,8 @@ class AuthController {
     return res.status(response.status_code).json(response);
   }
 
+  // Redirect to Client after get data from Google
   async googleProvider(req: Request, res: Response) {
-    // const response = await AuthService.googleProvider();
     return res.redirect('http://localhost:5173/');
   }
 }
