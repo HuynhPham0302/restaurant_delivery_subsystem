@@ -1,10 +1,9 @@
-import AuthService from '../services/Auth.services';
 import { Request, Response } from 'express';
+import AuthService from '../services/Auth.services';
 
 class AuthController {
   async getProfile(req: Request, res: Response) {
     const response = await AuthService.getProfile();
-    console.dir(response, { depth: null });
     return res.status(response.status_code).json(response);
   }
 

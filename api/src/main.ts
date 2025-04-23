@@ -1,23 +1,44 @@
 import compression from 'compression';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import express, { json } from 'express';
+import express, { NextFunction, Request, Response, json } from 'express';
+import 'express-async-errors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import RootRouter from './routers';
+import { ErrorResponse } from './utils/Error.utils';
+import session from 'express-session';
+import passport from 'passport';
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 3000;
+const { PORT = '3000', SECRET_KEY = 'ABC' } = process.env;
 
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
 app.use(compression());
 app.use(json());
+app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 
 app.use('/v1/api', RootRouter);
 
-app.listen(port, () => {
-  console.log(`Server is ready at http://localhost:${port}`);
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const err = new ErrorResponse(404, 'Not Found');
+  next(err);
+});
+
+app.use((err: ErrorResponse, req: Request, res: Response, next: NextFunction) => {
+  const message = err.message || 'Internal Server Error';
+  return res.status(err.status_code || 500).json({
+    status: 'error',
+    status_code: err.status_code || 500,
+    message,
+    error: err.error,
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is ready at http://localhost:${PORT}`);
 });
