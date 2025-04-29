@@ -4,6 +4,7 @@ import HTTP, { TResponse } from '@/utils/Http.utils';
 import { QueryClient, useQuery } from '@tanstack/react-query';
 import { Button, Modal, Table, TableProps, message } from 'antd';
 import qs from 'qs';
+import { Link } from 'react-router-dom';
 
 export default function AdminAllProduct() {
   const queryClient = new QueryClient();
@@ -72,11 +73,11 @@ export default function AdminAllProduct() {
       key: 'action',
       render: (_, record: TProduct) => (
         <div className='flex space-x-2'>
-          {/* <Link to={`/admin/product/edit/${record.id}`}>
+          <Link to={`/admin/product/edit/${record.id}`}>
             <Button size='small' type='primary'>
               Edit
             </Button>
-          </Link> */}
+          </Link>
           <Button onClick={() => handleDeleteProduct(record.id)} size='small' danger>
             Delete
           </Button>
