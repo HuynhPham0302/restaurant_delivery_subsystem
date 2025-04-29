@@ -8,6 +8,7 @@ export type TProfile = {
   provider: string;
   role: string;
   user: TUser;
+  avatar: string;
   createdAt: string;
   updatedAt: string;
 };

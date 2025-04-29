@@ -4,9 +4,14 @@ import { TProduct } from '@/types/Product.types';
 import { TUser } from '@/types/User.types';
 import HTTP, { TResponse } from '@/utils/Http.utils';
 import { useQuery } from '@tanstack/react-query';
-import { Col, Divider, Row } from 'antd';
+import { Card, Col, Divider, Row } from 'antd';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import { BiCategory, BiSolidUser } from 'react-icons/bi';
+import { FaCheckDouble } from 'react-icons/fa';
+import { GoPaperclip } from 'react-icons/go';
+import { IoLogoUsd, IoMdCart } from 'react-icons/io';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -35,7 +40,7 @@ export default function StatisticalReport() {
     labels: category?.metadata.map((item) => item.name),
     datasets: [
       {
-        label: '# of Votes',
+        label: 'Product in Category',
         data: category?.metadata.map((item) => item.Product.length),
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -65,30 +70,68 @@ export default function StatisticalReport() {
       <Row className='mt-10'>
         <Col span={14}>
           <div className='grid grid-cols-2 gap-20'>
-            <h2 className='text-2xl font-bold'>Total User activate: {user?.metadata.length} User</h2>
-            <h2 className='text-2xl font-bold'>Total Product: {product?.metadata.length} product</h2>
-            <h2 className='text-2xl font-bold'>Total Order: {order?.metadata.length} Order</h2>
-            <h2 className='text-2xl font-bold'>
-              Total order completed:{' '}
-              {order?.metadata.reduce((count, order) => {
+            <CardStatistical
+              title='Total User'
+              value={user?.metadata.length}
+              icon={<BiSolidUser size={20} />}
+              description='Total User activate'
+              color='blue'
+            />
+            <CardStatistical
+              title='Total Product'
+              value={product?.metadata.length}
+              icon={<IoMdCart size={20} />}
+              description='Total Product in store'
+              color='green'
+            />
+
+            <CardStatistical
+              title='Total Order'
+              value={order?.metadata.length}
+              icon={<GoPaperclip size={20} />}
+              description='Total Order in store'
+              color='red'
+            />
+            <CardStatistical
+              title='Total Category'
+              value={category?.metadata.length}
+              icon={<BiCategory size={20} />}
+              description='Total Category in store'
+              color='purple'
+            />
+
+            <CardStatistical
+              title='Total Order Completed'
+              value={order?.metadata.reduce((count, order) => {
                 if (order.status === 'completed') count++;
                 return count;
-              }, 0)}{' '}
-              Order
-            </h2>
-            <h2 className='text-2xl font-bold'>
-              Total Revenue:{' '}
-              {order?.metadata.reduce((revenue, order) => {
+              }, 0)}
+              icon={<FaCheckDouble size={20} />}
+              description='Total Order completed in store'
+              color='orange'
+            />
+
+            <CardStatistical
+              title='Total Revenue'
+              value={order?.metadata.reduce((revenue, order) => {
                 revenue += order.total_price;
                 return revenue;
               }, 0)}
-              $
-            </h2>
+              icon={<IoLogoUsd size={20} />}
+              description='Total Revenue in store'
+              color='yellow'
+            />
           </div>
           <Divider />
           <h1 className='text-3xl font-bold mt-20'>Website Traffic</h1>
           <div className='mt-10'>
-            <h2 className='text-2xl font-bold'>Website visits / day: 328 times</h2>
+            <CardStatistical
+              title='Total Visitor'
+              value={32}
+              icon={<BiSolidUser size={20} />}
+              description='Total Visitor in store / day'
+              color='blue'
+            />
           </div>
         </Col>
         <Col span={10}>
@@ -109,3 +152,35 @@ export default function StatisticalReport() {
     </section>
   );
 }
+
+const CardStatistical = ({
+  title,
+  value,
+  icon,
+  description,
+  color,
+}: {
+  title: string;
+  value: number | undefined;
+  description?: string;
+  icon: React.ReactNode;
+  color: string;
+}) => {
+  return (
+    <Card className='relative shadow-lg shadow-slate-200'>
+      <div className='flex justify-end '>
+        <div className='space-y-2'>
+          <p className='text-xl font-bold'>{title}</p>
+          <p className='text-end text-xl'>{value}</p>
+        </div>
+        <div
+          style={{ background: color, color: 'white' }}
+          className='absolute -top-5 left-5 w-14 h-14 flex items-center justify-center rounded-lg'
+        >
+          {icon}
+        </div>
+      </div>
+      <p>{description}</p>
+    </Card>
+  );
+};

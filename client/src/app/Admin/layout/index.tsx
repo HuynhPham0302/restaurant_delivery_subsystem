@@ -2,6 +2,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import { useState } from 'react';
 import { BiCategory, BiSolidUser } from 'react-icons/bi';
+import { FaChartLine } from 'react-icons/fa';
 import { HiOutlinePaperClip, HiOutlineTemplate } from 'react-icons/hi';
 import { TbReport } from 'react-icons/tb';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
@@ -31,9 +32,14 @@ export default function AdminLayout() {
           onSelect={({ key }) => navigation(key)}
           items={[
             {
-              key: '/admin/statistical_report',
+              key: '/admin',
               icon: <TbReport />,
               label: 'Report',
+            },
+            {
+              key: '/admin/sales_report',
+              icon: <FaChartLine />,
+              label: 'Sales Report',
             },
             {
               key: '/admin/user',

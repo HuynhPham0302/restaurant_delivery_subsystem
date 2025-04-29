@@ -40,8 +40,8 @@ const Routers = createBrowserRouter([
     path: '/admin',
     element: <AdminLayout />,
     children: [
-      { path: '/admin', element: <AdminChart /> },
-      { path: '/admin/statistical_report', element: <StatisticalReport /> },
+      { path: '/admin', element: <StatisticalReport /> },
+      { path: '/admin/sales_report', element: <AdminChart /> },
       { path: '/admin/user', element: <AdminUser /> },
       { path: '/admin/order', element: <AdminOrder /> },
       { path: '/admin/product/all', element: <AdminAllProduct /> },

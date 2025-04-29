@@ -44,7 +44,9 @@ export function Header() {
 
   return (
     <div className='w-full h-16 py-2 flex items-center justify-center space-x-10'>
-      <h1 className='text-2xl font-bold'>LOGO</h1>
+      <Link to='/'>
+        <h1 className='text-2xl font-bold'>LOGO</h1>
+      </Link>
       <Input.Search
         prefix={<IoSearchOutline className='mr-2' />}
         placeholder='Searching product...'
@@ -53,11 +55,11 @@ export function Header() {
         size='large'
       />
       <div className='h-full flex items-center space-x-3 group/icon'>
-        <Link to='/'>
+        {/* <Link to='/'>
           <Button icon={<FaHome className='inline mb-[3px] text-gray-600' size={18} />} size='large' type='text'>
             Home
           </Button>
-        </Link>
+        </Link> */}
         <Link to={navigateUser(user?.metadata)}>
           <Button
             loading={isLoading}
