@@ -43,9 +43,9 @@ export function Login() {
         description: `Chào mừng ${data.metadata.user.username} quay trở lại!`,
       });
       setTimeout(() => {
-        navigate('/');
         Cookies.set('token', data.metadata.token, { expires: 7 });
-      }, 1400);
+        window.location.href = '/';
+      }, 1000);
     } catch (error: any) {
       console.error(error);
       api.error({

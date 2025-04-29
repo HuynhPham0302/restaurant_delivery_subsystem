@@ -1,12 +1,14 @@
 import { CartIcon } from '@/components/CartIcon';
 import { TProfile } from '@/types/Profile.types';
 import HTTP, { type TResponse } from '@/utils/Http.utils';
+import { UserOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { Avatar, Button, Divider, Input } from 'antd';
 import Cookies from 'js-cookie';
 import { FaHome } from 'react-icons/fa';
 import { FaRegFaceSmile } from 'react-icons/fa6';
 import { IoSearchOutline } from 'react-icons/io5';
+import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 
 export function Header() {
@@ -21,6 +23,12 @@ export function Header() {
   });
 
   if (error) Cookies.remove('token');
+
+  const handleLogout = async () => {
+    Cookies.remove('token');
+    Cookies.remove('cart_id');
+    window.location.reload();
+  };
 
   const navigateUser = (user: TProfile | undefined) => {
     if (!user) {
@@ -59,15 +67,18 @@ export function Header() {
                   className='inline mb-[3px] text-gray-600 group-hover/icon:text-primary duration-500'
                   size={18}
                 />
+              ) : user.metadata?.avatar ? (
+                <Avatar size={25} src={user.metadata?.avatar} />
               ) : (
-                <Avatar size={25} src={user.metadata.avatar} />
+                <Avatar size={25} icon={<UserOutlined />} />
               )
             }
             size='large'
           >
-            {user?.metadata.user.username || 'Account'}
+            {user?.metadata?.user?.username || 'Account'}
           </Button>
         </Link>
+        {user && <RiLogoutBoxRLine className='cursor-pointer' size={20} onClick={handleLogout} />}
         <Divider type='vertical' style={{ height: '50%' }} />
         <CartIcon />
       </div>
