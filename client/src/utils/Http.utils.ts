@@ -6,6 +6,7 @@ export type TResponse<T> = {
   status_code: number;
   message: string;
   metadata: T;
+  total: number;
 };
 
 class HTTP {

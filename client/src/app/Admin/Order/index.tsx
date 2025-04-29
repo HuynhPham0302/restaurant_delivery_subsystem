@@ -19,14 +19,23 @@ import {
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import React from 'react';
+import qs from 'qs';
 
 export default function AdminOrder() {
+  const queryClient = useQueryClient();
+  let page = 1;
   const [orderId, setOrderId] = useState<number | null>();
   const [openDetail, setOpenDetail] = useState<boolean>(false);
-  const { data: res, isLoading } = useQuery<TResponse<TOrder[]>>({
+  const { data: res, isFetching } = useQuery<TResponse<TOrder[]>>({
     queryKey: ['order'],
-    queryFn: async () => await HTTP.GET(`/order`),
+    queryFn: async () =>
+      await HTTP.GET(`/order?${qs.stringify({ page, limit: 10, sort: 'desc', order: 'createdAt' })}`),
   });
+
+  const handleChangePage = (changePage: number) => {
+    page = changePage;
+    queryClient.invalidateQueries({ queryKey: ['order'] });
+  };
 
   const handleOpenDetail = (data: TOrder) => {
     setOrderId(data.id);
@@ -96,8 +105,24 @@ export default function AdminOrder() {
   return (
     <div>
       <h1 className='text-3xl font-bold'>Order:</h1>
-      <Table loading={isLoading} bordered className='mt-4' dataSource={dataSource} columns={columns} />
-      {orderId && <AdminOrderDetail order_id={orderId} open={openDetail} setOpen={setOpenDetail} />}
+      <Table
+        pagination={{
+          defaultCurrent: page,
+          total: res?.total,
+          defaultPageSize: 10,
+          showTotal: (total) => `Total ${total} items`,
+          onChange: (page) => handleChangePage(page),
+        }}
+        size='small'
+        loading={isFetching}
+        bordered
+        className='mt-4'
+        dataSource={dataSource}
+        columns={columns}
+      />
+      {orderId && (
+        <AdminOrderDetail queryClient={queryClient} order_id={orderId} open={openDetail} setOpen={setOpenDetail} />
+      )}
     </div>
   );
 }
@@ -106,10 +131,12 @@ const AdminOrderDetail = ({
   order_id,
   open,
   setOpen,
+  queryClient,
 }: {
   order_id: number;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  queryClient: any;
 }) => {
   const [api, contextHolder] = message.useMessage();
 
@@ -119,7 +146,6 @@ const AdminOrderDetail = ({
     enabled: open,
   });
 
-  const queryClient = useQueryClient();
   const calcPrice = (item: TProduct_item) =>
     item.is_discount ? item.price - (item.price * item.discount) / 100 : item.price;
 

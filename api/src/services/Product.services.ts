@@ -48,6 +48,7 @@ class ProductServices {
       include: {
         items: true,
         images: true,
+        category: true,
       },
     });
 

@@ -9,6 +9,8 @@ import CartPage from './app/CartPage/CartPage';
 import AdminLayout from './app/Admin/layout';
 import AdminOrder from './app/Admin/Order';
 import CheckOut from './app/Checkout';
+import AdminAllProduct from './app/Admin/Product/All';
+import AdminCreateProduct from './app/Admin/Product/Create';
 
 const Routers = createBrowserRouter([
   {
@@ -32,7 +34,11 @@ const Routers = createBrowserRouter([
   {
     path: '/admin',
     element: <AdminLayout />,
-    children: [{ path: '/admin/order', element: <AdminOrder /> }],
+    children: [
+      { path: '/admin/order', element: <AdminOrder /> },
+      { path: '/admin/product/all', element: <AdminAllProduct /> },
+      { path: '/admin/product/create', element: <AdminCreateProduct /> },
+    ],
   },
 ]);
 

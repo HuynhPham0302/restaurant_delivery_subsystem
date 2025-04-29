@@ -1,7 +1,7 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import { useState } from 'react';
-import { HiOutlinePaperClip } from 'react-icons/hi';
+import { HiOutlinePaperClip, HiOutlineTemplate } from 'react-icons/hi';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
@@ -33,6 +33,21 @@ export default function AdminLayout() {
               icon: <HiOutlinePaperClip />,
               label: 'Order',
             },
+            {
+              key: '/admin/product',
+              icon: <HiOutlineTemplate />,
+              label: 'Product',
+              children: [
+                {
+                  key: '/admin/product/all',
+                  label: 'List',
+                },
+                {
+                  key: '/admin/product/create',
+                  label: 'Create',
+                },
+              ],
+            },
           ]}
         />
       </Sider>
@@ -53,11 +68,10 @@ export default function AdminLayout() {
           style={{
             margin: '24px 16px',
             padding: 24,
-
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
-          className='h-full'
+          className='h-full overflow-y-auto'
         >
           <Outlet />
         </Content>
