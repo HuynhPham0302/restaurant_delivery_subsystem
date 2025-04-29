@@ -118,6 +118,7 @@ model Order {
   status       String      @default("pending")
   total_price  Float
   fullName     String
+  email        String?
   address      String
   phone_number String
   postal_code  String

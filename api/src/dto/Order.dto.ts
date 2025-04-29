@@ -29,3 +29,13 @@ export const createOrderSchema = z.object({
     }),
   ),
 });
+
+export const updateOrderSchema = z.object({
+  user_id: z.number().optional(),
+  total_price: z.number().optional(),
+  fullName: z.string().optional(),
+  email: z.string().optional(),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+  postal_code: z.string().optional(),
+});

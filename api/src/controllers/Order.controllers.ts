@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createOrderDto, createOrderSchema } from '../dto/Order.dto';
+import { createOrderDto, createOrderSchema, updateOrderSchema } from '../dto/Order.dto';
 import { ValidationData } from '../utils/Validation.utils';
 import OrderServices from '../services/Order.services';
 import { dataFilter } from '../utils/Response.utils';
@@ -19,6 +19,12 @@ class OrderController {
 
   async getOne(req: Request, res: Response) {
     const response = await OrderServices.getOne(Number(req.params.id));
+    return res.status(response.status_code).json(response);
+  }
+
+  async update(req: Request, res: Response) {
+    const validate = await ValidationData<createOrderDto>(req.body, updateOrderSchema);
+    const response = await OrderServices.update(Number(req.params.id), validate);
     return res.status(response.status_code).json(response);
   }
 }

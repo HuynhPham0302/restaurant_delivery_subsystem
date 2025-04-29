@@ -11,9 +11,9 @@ export type TOrder_item = {
 export type TOrder = {
   id: number;
   OrderItem: TOrder_item[];
-  total: number;
   total_price: number;
   fullName: string;
+  email: string;
   phone_number: string;
   postal_code: string;
   address: string;

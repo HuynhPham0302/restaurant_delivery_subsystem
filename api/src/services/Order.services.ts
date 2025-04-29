@@ -14,6 +14,7 @@ class OrderService {
         phone_number: data.phone,
         address: data.address,
         postal_code: data.postal_code,
+        email: data.email,
         OrderItem: {
           createMany: {
             data: data.products,
@@ -34,7 +35,19 @@ class OrderService {
         [pagination.order]: pagination.sort,
       },
       include: {
-        OrderItem: true,
+        OrderItem: {
+          include: {
+            product_item: {
+              include: {
+                product: {
+                  include: {
+                    images: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
@@ -51,11 +64,34 @@ class OrderService {
         id,
       },
       include: {
-        OrderItem: true,
+        OrderItem: {
+          include: {
+            product_item: {
+              include: {
+                product: {
+                  include: {
+                    images: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
     return Success(order, null, 200, 'Order retrieved successfully');
+  }
+
+  async update(id: number, data: createOrderDto) {
+    const order = await this.OrderModel.update({
+      where: {
+        id,
+      },
+      data,
+    });
+
+    return Success(order, null, 200, 'Order updated successfully');
   }
 }
 
