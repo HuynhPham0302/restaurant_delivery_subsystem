@@ -1,16 +1,19 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { GoogleCallback } from './app/Auth/Callback';
-import { Login } from './app/Auth/Login';
-import { HomePage } from './app/HomePage';
-import { MainLayout } from './layouts/MainLayout';
-import { ProductPage } from './app/ProductPage';
-import { ProductDetail } from './app/ProductPage/ProductDetail';
-import CartPage from './app/CartPage/CartPage';
-import AdminLayout from './app/Admin/layout';
 import AdminOrder from './app/Admin/Order';
-import CheckOut from './app/Checkout';
 import AdminAllProduct from './app/Admin/Product/All';
 import AdminCreateProduct from './app/Admin/Product/Create';
+import AdminEditProduct from './app/Admin/Product/Edit';
+import AdminLayout from './app/Admin/layout';
+import { GoogleCallback } from './app/Auth/Callback';
+import { Login } from './app/Auth/Login';
+import CartPage from './app/CartPage/CartPage';
+import CheckOut from './app/Checkout';
+import { HomePage } from './app/HomePage';
+import { ProductPage } from './app/ProductPage';
+import { ProductDetail } from './app/ProductPage/ProductDetail';
+import { MainLayout } from './layouts/MainLayout';
+import AdminAllCategory from './app/Admin/Category/All';
+import AdminChart from './app/Admin/Chart';
 
 const Routers = createBrowserRouter([
   {
@@ -35,9 +38,12 @@ const Routers = createBrowserRouter([
     path: '/admin',
     element: <AdminLayout />,
     children: [
+      { path: '/admin', element: <AdminChart /> },
       { path: '/admin/order', element: <AdminOrder /> },
       { path: '/admin/product/all', element: <AdminAllProduct /> },
       { path: '/admin/product/create', element: <AdminCreateProduct /> },
+      { path: '/admin/product/edit/:id', element: <AdminEditProduct /> },
+      { path: '/admin/category', element: <AdminAllCategory /> },
     ],
   },
 ]);

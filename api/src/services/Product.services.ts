@@ -1,6 +1,6 @@
 import slugify from 'slugify';
 import prismaInstance from '../configs/database.config';
-import { CreateProductDto, UpdateProductDto } from '../dto/Product.dto';
+import { CreateProductDto } from '../dto/Product.dto';
 import { Filter, Success } from '../utils/Response.utils';
 
 class ProductServices {
@@ -39,7 +39,7 @@ class ProductServices {
 
   async get(pagination: Filter, query: any) {
     const products = await this.productModel.findMany({
-      where: query,
+      where: { is_deleted: false, ...query },
       skip: pagination.limit * (pagination.page - 1),
       take: pagination.limit,
       orderBy: {
@@ -63,6 +63,7 @@ class ProductServices {
     const product = await this.productModel.findUnique({
       where: {
         id,
+        is_deleted: false,
       },
       include: {
         items: true,
@@ -73,7 +74,7 @@ class ProductServices {
     return Success(product, null, 200, 'Product retrieved successfully');
   }
 
-  async update(id: number, data: UpdateProductDto) {
+  async update(id: number, data: CreateProductDto) {
     const product = await this.productModel.update({
       where: {
         id,
@@ -82,19 +83,13 @@ class ProductServices {
         name: data.name,
         description: data.description,
         slug: data.name ? slugify(data.name, { lower: true }) : undefined,
+        image_cover: data.image_cover,
+        brand: data.brand,
+        sku: data.sku,
+        meta: data.meta,
         category: {
           connect: {
             id: data.categoryId,
-          },
-        },
-        items: {
-          createMany: {
-            data: data.items!,
-          },
-        },
-        images: {
-          createMany: {
-            data: data.image!,
           },
         },
       },
@@ -104,9 +99,12 @@ class ProductServices {
   }
 
   async delete(id: number) {
-    await this.productModel.delete({
+    await this.productModel.update({
       where: {
         id,
+      },
+      data: {
+        is_deleted: true,
       },
     });
 

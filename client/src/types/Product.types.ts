@@ -19,9 +19,10 @@ export type TProduct_image = {
 };
 
 export type TProduct = {
-  id: string;
+  id: number;
   name: string;
   description: string;
+  category_id: string;
   image_cover: string;
   sku: string;
   brand: string;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CreateProductDto, CreateProductSchema } from '../dto/Product.dto';
+import { CreateProductDto, CreateProductSchema, UpdateProductSchema } from '../dto/Product.dto';
 import ProductServices from '../services/Product.services';
 import { ValidationData } from '../utils/Validation.utils';
 import { dataFilter } from '../utils/Response.utils';
@@ -25,7 +25,7 @@ class ProductController {
 
   async update(req: Request, res: Response) {
     const id = Number(req.params.id);
-    const validate = await ValidationData<CreateProductDto>(req.body, CreateProductSchema);
+    const validate = await ValidationData<CreateProductDto>(req.body, UpdateProductSchema);
     const response = await ProductServices.update(id, validate);
     return res.status(response.status_code).json(response);
   }

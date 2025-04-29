@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LoadingOutlined, PlusOutlined, InboxOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Input, InputNumber, Row, Select, Space, Switch, Upload, UploadProps, message } from 'antd';
-import { useState } from 'react';
-import HTTP, { TResponse } from '@/utils/Http.utils';
-import { useQuery } from '@tanstack/react-query';
 import { TCategory } from '@/types/Category.types';
 import { TProduct } from '@/types/Product.types';
+import HTTP, { TResponse } from '@/utils/Http.utils';
+import { InboxOutlined, LoadingOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { useQuery } from '@tanstack/react-query';
+import { Button, Col, Form, Input, InputNumber, Row, Select, Space, Switch, Upload, UploadProps, message } from 'antd';
+import { useState } from 'react';
 
 const VALIDATION_RULES = [{ required: true, message: 'This field is required' }];
 
@@ -71,7 +71,6 @@ export default function AdminCreateProduct() {
       return acc;
     }, {} as Record<string, any>);
 
-    console.log(values);
     const create = await HTTP.POST<TResponse<TProduct>>('/product', values);
     if (create.status_code === 201) {
       api.success('Create product success');

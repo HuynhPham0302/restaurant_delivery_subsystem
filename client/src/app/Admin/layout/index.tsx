@@ -3,6 +3,8 @@ import { Button, Layout, Menu, theme } from 'antd';
 import { useState } from 'react';
 import { HiOutlinePaperClip, HiOutlineTemplate } from 'react-icons/hi';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import AdminAllCategory from '../Category/All';
+import { BiCategory } from 'react-icons/bi';
 
 const { Header, Sider, Content } = Layout;
 
@@ -47,6 +49,11 @@ export default function AdminLayout() {
                   label: 'Create',
                 },
               ],
+            },
+            {
+              key: '/admin/category',
+              label: 'Category',
+              icon: <BiCategory />,
             },
           ]}
         />

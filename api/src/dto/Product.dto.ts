@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 type item_product = {
+  id: number;
   description: string;
   type: string;
   price: number;
@@ -10,6 +11,7 @@ type item_product = {
 };
 
 type image_product = {
+  id: number;
   url: string;
 };
 
@@ -25,14 +27,6 @@ export type CreateProductDto = {
   };
   items: item_product[];
   image: image_product[];
-};
-
-export type UpdateProductDto = {
-  name?: string;
-  description?: string;
-  categoryId?: number;
-  items?: item_product[];
-  image?: image_product[];
 };
 
 export const CreateProductSchema = z.object({
