@@ -1,8 +1,10 @@
 import { Button, Result } from 'antd';
+import Cookies from 'js-cookie';
 import { FaCheckCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export default function CheckOut() {
+  Cookies.remove('cart_id');
   return (
     <div className='flex w-full h-screen items-center justify-center'>
       <Result

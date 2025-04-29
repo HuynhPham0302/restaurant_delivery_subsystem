@@ -26,7 +26,7 @@ export function GoogleCallback() {
   if (data) {
     console.log(data);
     Cookies.set('token', data.metadata.token, { expires: 7 });
-    navigate('/');
+    window.location.href = '/';
   }
 
   return (

@@ -51,7 +51,7 @@ export default function CartPage() {
     );
 
     value.address = `${value.address_1}, ${value.address_2}, ${value.address_3}`;
-    value.user_id = user?.metadata.id;
+    value.user_id = user?.metadata.userId;
 
     const createOrder = await HTTP.POST<any>('/order', value);
 

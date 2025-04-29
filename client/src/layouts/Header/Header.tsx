@@ -1,11 +1,11 @@
 import { CartIcon } from '@/components/CartIcon';
+import SearchBar from '@/components/SearchBar';
 import { TProfile } from '@/types/Profile.types';
 import HTTP, { type TResponse } from '@/utils/Http.utils';
 import { UserOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { Avatar, Button, Divider, Input } from 'antd';
 import Cookies from 'js-cookie';
-import { FaHome } from 'react-icons/fa';
 import { FaRegFaceSmile } from 'react-icons/fa6';
 import { IoSearchOutline } from 'react-icons/io5';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
@@ -47,13 +47,7 @@ export function Header() {
       <Link to='/'>
         <h1 className='text-2xl font-bold'>LOGO</h1>
       </Link>
-      <Input.Search
-        prefix={<IoSearchOutline className='mr-2' />}
-        placeholder='Searching product...'
-        allowClear
-        enterButton='Search'
-        size='large'
-      />
+      <SearchBar />
       <div className='h-full flex items-center space-x-3 group/icon'>
         {/* <Link to='/'>
           <Button icon={<FaHome className='inline mb-[3px] text-gray-600' size={18} />} size='large' type='text'>

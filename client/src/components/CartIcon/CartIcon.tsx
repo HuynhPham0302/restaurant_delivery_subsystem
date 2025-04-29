@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 export function CartIcon() {
   const cart_id = Cookies.get('cart_id');
   const { data: cart } = useQuery<TResponse<TCart>>({
-    queryKey: ['cart'],
+    queryKey: ['cart', cart_id],
     queryFn: async () => await HTTP.GET(`/cart/${cart_id}`),
     enabled: cart_id ? true : false,
   });

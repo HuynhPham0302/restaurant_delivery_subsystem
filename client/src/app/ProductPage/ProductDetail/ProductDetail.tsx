@@ -70,12 +70,12 @@ export function ProductDetail() {
     const cart_id = Cookies.get('cart_id');
     if (cart_id) {
       const res = await HTTP.POST<TResponse<TCart>>(`/cart/${cart_id}`, {
-        user_id: user?.metadata.id,
+        user_id: user?.metadata.userId,
         product_item_id: item.id,
         quantity,
       });
       if (res.status_code === 200) {
-        queryClient.invalidateQueries({ queryKey: ['cart'] });
+        queryClient.invalidateQueries({ queryKey: ['cart', cart_id] });
         api.success({
           message: 'Add to cart successfully',
           description: 'You can view your cart in the cart page!',
@@ -90,7 +90,7 @@ export function ProductDetail() {
       }
     } else {
       const res = await HTTP.POST<TResponse<TCart>>('/cart', {
-        user_id: user?.metadata.id,
+        user_id: user?.metadata.userId,
         product_item_id: item.id,
         quantity,
       });
@@ -98,12 +98,12 @@ export function ProductDetail() {
       console.log(res);
       if (res.status_code === 201) {
         Cookies.set('cart_id', String(res.metadata.id));
-        queryClient.invalidateQueries({ queryKey: ['cart'] });
         api.success({
           message: 'Add to cart successfully',
           description: 'You can view your cart in the cart page!',
           placement: 'bottomRight',
         });
+        queryClient.invalidateQueries({ queryKey: ['cart', cart_id] });
       } else {
         api.error({
           message: 'Add to cart failed',

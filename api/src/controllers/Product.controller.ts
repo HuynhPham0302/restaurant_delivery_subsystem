@@ -35,6 +35,12 @@ class ProductController {
     const response = await ProductServices.delete(id);
     return res.status(response.status_code).json(response);
   }
+
+  async search(req: Request, res: Response) {
+    const { filter, query } = dataFilter(req.query);
+    const response = await ProductServices.search(filter, query);
+    return res.status(response.status_code).json(response);
+  }
 }
 
 export default new ProductController();

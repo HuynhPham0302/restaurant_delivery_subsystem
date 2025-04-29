@@ -8,5 +8,6 @@ ProductRouter.get('/:id', ProductController.getOne);
 ProductRouter.post('/', ProductController.create);
 ProductRouter.patch('/:id', ProductController.update);
 ProductRouter.delete('/:id', ProductController.delete);
+ProductRouter.get('/search/name', ProductController.search);
 
 export default ProductRouter;

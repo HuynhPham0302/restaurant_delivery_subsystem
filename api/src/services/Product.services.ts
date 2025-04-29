@@ -110,6 +110,38 @@ class ProductServices {
 
     return Success(null, null, 200, 'Product deleted successfully');
   }
+
+  async search(pagination: Filter, query: any) {
+    const products = await this.productModel.findMany({
+      where: {
+        is_deleted: false,
+        name: {
+          contains: query.keyword,
+        },
+      },
+      skip: pagination.limit * (pagination.page - 1),
+      take: pagination.limit,
+      orderBy: {
+        [pagination.order]: pagination.sort,
+      },
+      include: {
+        items: true,
+        images: true,
+        category: true,
+      },
+    });
+
+    const total = await this.productModel.count({
+      where: {
+        is_deleted: false,
+        name: {
+          contains: query.keyword,
+        },
+      },
+    });
+
+    return Success(products, total, 200, 'Products retrieved successfully');
+  }
 }
 
 export default new ProductServices();
