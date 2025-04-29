@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import prismaInstance from '../configs/database.config';
 import { TLogin, TRegister } from '../dto/Auth.dto';
 import JWT, { TJwtPayload } from '../utils/Jwt.utils';
-import { Success } from '../utils/Response.utils';
+import { Filter, Success } from '../utils/Response.utils';
 import { UnauthorizedError } from '../utils/Error.utils';
 
 class AuthService {
@@ -77,6 +77,41 @@ class AuthService {
       email: data.email,
     });
     return Success({ ...data, token }, null, 200, 'Google login success');
+  }
+
+  async getAllUser(pagination: Filter, query: any) {
+    const users = await this.ProfileModel.findMany({
+      where: {
+        is_deleted: false,
+        ...query,
+      },
+      skip: pagination.limit * (pagination.page - 1),
+      take: pagination.limit,
+      orderBy: {
+        [pagination.order]: pagination.sort,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    const total = await this.ProfileModel.count({
+      where: {
+        is_deleted: false,
+      },
+    });
+    return Success(users, total, 200, 'Get all user success');
+  }
+
+  async updateUser(id: number, data: any) {
+    const profile = await this.ProfileModel.update({
+      where: {
+        id,
+      },
+      data: data,
+    });
+
+    return Success(profile, null, 200, 'Update user success');
   }
 }
 

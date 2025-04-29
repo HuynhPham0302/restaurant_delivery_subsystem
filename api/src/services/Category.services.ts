@@ -25,6 +25,9 @@ class CategoryService {
       orderBy: {
         [pagination.order]: pagination.sort,
       },
+      include: {
+        Product: true,
+      },
     });
 
     const total = await this.CategoryModel.count({

@@ -26,7 +26,9 @@ export function HomePage() {
             The Vomero 5 takes early-2000s running to modern heights. A combination of breathable and durable materials
             stands ready for the rigours of your day, while Zoom Air cushioning delivers a smooth ride.
           </p>
-          <button className='px-6 py-4 bg-black text-white text-xl mt-10'>Shop now</button>
+          <Link to='/product'>
+            <button className='px-6 py-4 bg-black text-white text-xl mt-10'>Shop now</button>
+          </Link>
         </Col>
         <Col span={12} className='flex items-center justify-center w-full h-full'>
           <div
@@ -78,31 +80,37 @@ export function HomePage() {
             </Link>
           </Col>
           <Col span={14} className='space-y-3'>
-            <Link to='/product'>
-              <div className='relative cursor-pointer w-full h-[354px] rounded-sm overflow-hidden group'>
-                <img
-                  src='http://localhost:4000/v1/api/static/Sneaker_running.jpg'
-                  className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
-                  alt='SNEAKER_Running'
-                />
-                <div className='w-full h-full bg-black absolute top-0 left-0 opacity-60 group-hover:opacity-75 transition-opacity duration-500' />
-                <div className='absolute bottom-14 left-10 text-2xl flex items-center'>
-                  <h1 className='font-extrabold uppercase'>Running/Sport</h1>
-                  <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
+            <div>
+              <Link to='/product?category_id=1'>
+                <div className='relative cursor-pointer w-full h-[354px] rounded-sm overflow-hidden group'>
+                  <img
+                    src='http://localhost:4000/v1/api/static/Sneaker_running.jpg'
+                    className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
+                    alt='SNEAKER_Running'
+                  />
+                  <div className='w-full h-full bg-black absolute top-0 left-0 opacity-60 group-hover:opacity-75 transition-opacity duration-500' />
+                  <div className='absolute bottom-14 left-10 text-2xl flex items-center'>
+                    <h1 className='font-extrabold uppercase'>Running/Sport</h1>
+                    <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
+                  </div>
                 </div>
-              </div>
-            </Link>
-            <div className='relative cursor-pointer w-full h-[354px] rounded-sm overflow-hidden group'>
-              <img
-                src='http://localhost:4000/v1/api/static/Sneaker_basketball.JPG'
-                className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
-                alt='SNEAKER_Running'
-              />
-              <div className='w-full h-full bg-black absolute top-0 left-0 opacity-60 group-hover:opacity-75 transition-opacity duration-500' />
-              <div className='absolute bottom-14 left-10 text-2xl flex items-center'>
-                <h1 className='font-extrabold uppercase'>Basketball Collection</h1>
-                <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
-              </div>
+              </Link>
+            </div>
+            <div>
+              <Link to='/product?category_id=2'>
+                <div className='relative cursor-pointer w-full h-[354px] rounded-sm overflow-hidden group'>
+                  <img
+                    src='http://localhost:4000/v1/api/static/Sneaker_basketball.JPG'
+                    className='w-full h-full absolute top-0 left-0 group-hover:scale-105 transition-transform duration-500'
+                    alt='SNEAKER_Running'
+                  />
+                  <div className='w-full h-full bg-black absolute top-0 left-0 opacity-60 group-hover:opacity-75 transition-opacity duration-500' />
+                  <div className='absolute bottom-14 left-10 text-2xl flex items-center'>
+                    <h1 className='font-extrabold uppercase'>Basketball Collection</h1>
+                    <FaAngleRight size={24} className='transition-transform group-hover:translate-x-3 duration-500' />
+                  </div>
+                </div>
+              </Link>
             </div>
           </Col>
         </Row>

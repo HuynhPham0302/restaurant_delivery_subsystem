@@ -19,4 +19,8 @@ AuthRouter.get('/google', GoogleMiddle, (_, res) => {
 // Verify data user from google provider
 AuthRouter.get('/google/callback', GoogleMiddleCallBack, AuthController.googleProvider);
 
+AuthRouter.get('/user', AuthController.getAllUser);
+
+AuthRouter.put('/user/:id', AuthController.updateUser);
+
 export default AuthRouter;

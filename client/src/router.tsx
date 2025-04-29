@@ -1,8 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
+import AdminAllCategory from './app/Admin/Category/All';
+import AdminChart from './app/Admin/Chart';
 import AdminOrder from './app/Admin/Order';
 import AdminAllProduct from './app/Admin/Product/All';
 import AdminCreateProduct from './app/Admin/Product/Create';
 import AdminEditProduct from './app/Admin/Product/Edit';
+import StatisticalReport from './app/Admin/StatisticalReport';
 import AdminLayout from './app/Admin/layout';
 import { GoogleCallback } from './app/Auth/Callback';
 import { Login } from './app/Auth/Login';
@@ -12,8 +15,7 @@ import { HomePage } from './app/HomePage';
 import { ProductPage } from './app/ProductPage';
 import { ProductDetail } from './app/ProductPage/ProductDetail';
 import { MainLayout } from './layouts/MainLayout';
-import AdminAllCategory from './app/Admin/Category/All';
-import AdminChart from './app/Admin/Chart';
+import AdminUser from './app/Admin/User';
 
 const Routers = createBrowserRouter([
   {
@@ -39,6 +41,8 @@ const Routers = createBrowserRouter([
     element: <AdminLayout />,
     children: [
       { path: '/admin', element: <AdminChart /> },
+      { path: '/admin/statistical_report', element: <StatisticalReport /> },
+      { path: '/admin/user', element: <AdminUser /> },
       { path: '/admin/order', element: <AdminOrder /> },
       { path: '/admin/product/all', element: <AdminAllProduct /> },
       { path: '/admin/product/create', element: <AdminCreateProduct /> },

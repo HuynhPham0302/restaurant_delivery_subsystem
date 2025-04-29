@@ -16,6 +16,16 @@ export type Filter = {
   [key: string]: string | number;
 };
 
+function convertStringNumbers(obj: Record<string, any>): Record<string, any> {
+  const entries = Object.entries(obj).map(([key, value]) => {
+    if (typeof value === 'string' && !isNaN(parseFloat(value)) && isFinite(value as any)) {
+      return [key, parseFloat(value)];
+    }
+    return [key, value];
+  });
+  return Object.fromEntries(entries);
+}
+
 export const dataFilter = (query: any) => {
   const filter: Filter = {
     page: Number(query.page) || 1,
@@ -27,5 +37,6 @@ export const dataFilter = (query: any) => {
   delete query.limit;
   delete query.order;
   delete query.sort;
-  return { filter, query };
+
+  return { filter, query: convertStringNumbers(query) };
 };

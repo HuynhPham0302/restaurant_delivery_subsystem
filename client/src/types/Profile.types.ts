@@ -3,12 +3,11 @@ import { TUser } from './User.types';
 export type TProfile = {
   id: string;
   email: string;
-  name: string;
-  avatar?: string;
-  role: string;
-  userId: number;
-  user: TUser;
+  is_blocked: boolean;
+  is_deleted: boolean;
   provider: string;
-  created_at: string;
-  updated_at: string;
+  role: string;
+  user: TUser;
+  createdAt: string;
+  updatedAt: string;
 };

@@ -1,10 +1,10 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import { useState } from 'react';
+import { BiCategory, BiSolidUser } from 'react-icons/bi';
 import { HiOutlinePaperClip, HiOutlineTemplate } from 'react-icons/hi';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import AdminAllCategory from '../Category/All';
-import { BiCategory } from 'react-icons/bi';
+import { TbReport } from 'react-icons/tb';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
 
@@ -20,9 +20,9 @@ export default function AdminLayout() {
   return (
     <Layout className='h-screen'>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div>
+        <Link to='/admin'>
           <h1 className='text-3xl font-bold text-center text-white'>LOGO</h1>
-        </div>
+        </Link>
         <Menu
           className='mt-6'
           theme='dark'
@@ -30,6 +30,16 @@ export default function AdminLayout() {
           defaultSelectedKeys={[path]}
           onSelect={({ key }) => navigation(key)}
           items={[
+            {
+              key: '/admin/statistical_report',
+              icon: <TbReport />,
+              label: 'Report',
+            },
+            {
+              key: '/admin/user',
+              icon: <BiSolidUser />,
+              label: 'User',
+            },
             {
               key: '/admin/order',
               icon: <HiOutlinePaperClip />,
