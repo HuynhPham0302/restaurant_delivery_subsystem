@@ -25,7 +25,7 @@ model Profile {
 model User {
   id           Int       @id @default(autoincrement())
   fullName     String
-  username     String    @unique
+  username     String?
   phone_number String?   @unique
   address      String?
   birth_date   DateTime?

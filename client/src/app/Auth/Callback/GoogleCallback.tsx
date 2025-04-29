@@ -4,19 +4,23 @@ import HTTP, { TResponse } from '@/utils/Http.utils';
 import { useQuery } from '@tanstack/react-query';
 import { Spin } from 'antd';
 import Cookies from 'js-cookie';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type TGoogleData = TResponse<{ token: string }>;
 
 export function GoogleCallback() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const url = `/auth/google/callback?code=${location.search.split('=')[1]}`;
+  const [searchParams] = useSearchParams();
+
+  console.log();
+  const url = `/auth/google/callback?code=${searchParams.get('code')}`;
 
   const { isError, data } = useQuery<TGoogleData>({
     queryKey: ['google'],
     queryFn: async () => await HTTP.GET(url),
   });
+
+  console.log(data);
 
   if (isError) {
     console.error(data);
